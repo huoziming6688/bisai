@@ -451,9 +451,10 @@ function workLocationSelected(e) {
 
 //删除工作地址
 function delpolyonArray(){
-    if(polygonArray) map.remove(polygonArray);
-
+    if(polygonArray) map.remove(polygonArray)
     polygonArray=[];
+    if (amapTransfer) amapTransfer.clear();
+    if(xqMarkerArray) map.remove(xqMarkerArray)
 }
 
 
@@ -561,10 +562,12 @@ function bd_decrypt(bd_lng, bd_lat) {
 var xiaoquinfolist=[]
  $(document).ready(function () {
             $("#search").click(function () {
+                map.off('click',onClick)
+
                 var price=$("#price").val();
                 var select_bedrooms=$("#select-bedrooms").val();
-                var t3=parseInt(document.getElementById('time').value.slice(0,2));
-                        var t2=document.getElementById('time').value.slice(4,document.getElementById('time').value.search('分钟'));
+
+                        var t2=parseInt(document.getElementById('time').value.slice(0,document.getElementById('time').value.search('分钟')));
                          if(document.getElementById("select-way").value=='地铁'){
                             vehicle='SUBWAY'
                          }
@@ -572,7 +575,7 @@ var xiaoquinfolist=[]
                             vehicle='BUS'
                          }
 
-                         loadWorkRange(workLocation,t3,'#3f67a5',vehicle);
+                         loadWorkRange(workLocation,t2,'#3f67a5',vehicle);
                 $.getJSON("{% url 'renthandle' %}",{'price':price,'select-bedrooms':select_bedrooms},function(ret){
                     $.each(ret,function (i,xqdict) {
                         console.log(xqdict);
@@ -580,12 +583,24 @@ var xiaoquinfolist=[]
                         console.log(baiduzuobiao);
                         xqdict['lnglat']=bd_decrypt(parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu));
                         console.log(xqdict.lnglat)
+
+
+
+                        //addxqmarker(xqdict)
                         xiaoquinfolist.push(xqdict)
     });
                     });
  });
 });
+function inpolygon() {
+    for(var xq in xiaoquinfolist){
+         for (var item of polygonArray){
+                            var inRing = AMap.GeometryUtil.isPointInRing(xq.lnglat,item.getPath());
+                            console.log(inRing)
+                        }
+    }
 
+}
 </script>
 
 

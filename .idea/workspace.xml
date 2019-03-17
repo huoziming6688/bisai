@@ -38,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="351" column="42" lean-forward="true" selection-start-line="351" selection-start-column="42" selection-end-line="351" selection-end-column="42" />
+            <state relative-caret-position="216">
+              <caret line="597" column="99" lean-forward="true" selection-start-line="597" selection-start-column="99" selection-end-line="597" selection-end-column="99" />
             </state>
           </provider>
         </entry>
@@ -79,8 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>assets</find>
-      <find>rent</find>
       <find>image</find>
       <find>house</find>
       <find>onclick</find>
@@ -109,6 +107,8 @@
       <find>xqmarkerarray</find>
       <find>city</find>
       <find>panel</find>
+      <find>marker</find>
+      <find>polygonarray</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/</replace>
@@ -153,8 +153,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-88" />
-    <option name="y" value="115" />
+    <option name="x" value="607" />
+    <option name="y" value="193" />
     <option name="width" value="1335" />
     <option name="height" value="845" />
   </component>
@@ -370,12 +370,12 @@
       <workItem from="1552704243769" duration="13058000" />
       <workItem from="1552747400242" duration="3091000" />
       <workItem from="1552750981514" duration="70000" />
-      <workItem from="1552791766096" duration="7752000" />
+      <workItem from="1552791766096" duration="12092000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39714000" />
+    <option name="totallyTimeSpent" value="44054000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -395,7 +395,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.5010526" side_tool="true" weight="0.1508043" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.33002833" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32107496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -711,8 +711,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="351" column="42" lean-forward="true" selection-start-line="351" selection-start-column="42" selection-end-line="351" selection-end-column="42" />
+        <state relative-caret-position="216">
+          <caret line="597" column="99" lean-forward="true" selection-start-line="597" selection-start-column="99" selection-end-line="597" selection-end-column="99" />
         </state>
       </provider>
     </entry>
