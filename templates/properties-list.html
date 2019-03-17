@@ -583,6 +583,15 @@ var xiaoquinfolist=[]
                         console.log(baiduzuobiao);
                         xqdict['lnglat']=bd_decrypt(parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu));
                         console.log(xqdict.lnglat)
+                        var inRing=false;
+                         for(var j=0;j<polygonArray.length;j++){
+
+                        inRing =(inRing||AMap.GeometryUtil.isPointInRing(xqdict.lnglat,polygonArray[j].getPath()));
+
+         }
+                         if (inRing){
+             addxqmarker(xqdict)
+         }
 
 
 
@@ -590,16 +599,20 @@ var xiaoquinfolist=[]
                         xiaoquinfolist.push(xqdict)
     });
                     });
+
  });
 });
-function inpolygon() {
-    for(var xq in xiaoquinfolist){
-         for (var item of polygonArray){
-                            var inRing = AMap.GeometryUtil.isPointInRing(xq.lnglat,item.getPath());
-                            console.log(inRing)
-                        }
-    }
+function addmarkerinpolygon() {
+     for (var i = 0; i<xiaoquinfolist.length; i++) {
+         var inRing=false;
+         for(var j=0;j<polygonArray.length;j++){
 
+             inRing =(inRing||AMap.GeometryUtil.isPointInRing(xiaoquinfolist[i].lnglat,polygonArray[j].getPath()));
+         }
+         if (inRing){
+             addxqmarker(xiaoquinfolist[i])
+         }
+     }
 }
 </script>
 
