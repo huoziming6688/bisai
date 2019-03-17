@@ -38,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="562" column="20" selection-start-line="562" selection-start-column="20" selection-end-line="562" selection-end-column="20" />
+            <state relative-caret-position="220">
+              <caret line="570" lean-forward="true" selection-start-line="570" selection-end-line="570" />
             </state>
           </provider>
         </entry>
@@ -152,7 +152,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="605" />
     <option name="y" value="191" />
     <option name="width" value="1335" />
@@ -372,12 +372,12 @@
       <workItem from="1552750981514" duration="70000" />
       <workItem from="1552791766096" duration="12092000" />
       <workItem from="1552826042364" duration="1391000" />
-      <workItem from="1552827511673" duration="2040000" />
+      <workItem from="1552827511673" duration="2862000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47485000" />
+    <option name="totallyTimeSpent" value="48307000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -397,7 +397,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.5010526" side_tool="true" weight="0.1508043" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3286119" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32107496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -681,8 +681,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="562" column="20" selection-start-line="562" selection-start-column="20" selection-end-line="562" selection-end-column="20" />
+        <state relative-caret-position="220">
+          <caret line="570" lean-forward="true" selection-start-line="570" selection-end-line="570" />
         </state>
       </provider>
     </entry>
