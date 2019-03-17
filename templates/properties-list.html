@@ -560,17 +560,14 @@ function bd_decrypt(bd_lng, bd_lat) {
     return [gg_lng,gg_lat]
 }
 function addmarkerinpolygon() {
-
+    console.log(9999)
      for (var i = 0; i<xiaoquinfolist.length; i++) {
-          console.log(9999)
          var inRing=false;
          for(var j=0;j<polygonArray.length;j++){
 
              inRing =(inRing||AMap.GeometryUtil.isPointInRing(xiaoquinfolist[i].lnglat,polygonArray[j].getPath()));
          }
-
          if (inRing){
-             console.log(100000)
              addxqmarker(xiaoquinfolist[i])
          }
      }
