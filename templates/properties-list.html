@@ -345,7 +345,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-7 col-map">
                         <div class="map-horizontal">
                             <div id="gaodeMap" style="width:58.2%;height:86.5vh;overflow:visible;"></div>
-                            <!-- <div id="panel"></div> -->
+                            <div id="panel"></div>
                         </div>
                         
                     </div>
@@ -458,63 +458,17 @@ function delpolyonArray(){
 
 
 
-
-
-//加载工作地址
-// function loadWorkLocation() {
-//     delWorkLocation();
-//     var geocoder = new AMap.Geocoder({
-//         city: "北京",
-//         radius: 1000
-//     });
-
-//     geocoder.getLocation(workAddress, function(status, result) {
-//         if (status === "complete" && result.info === 'OK') {
-//             var geocode = result.geocodes[0];
-//             x = geocode.location.getLng();
-//             y = geocode.location.getLat();
-//             loadWorkMarker(x, y);
-//             loadWorkRange(x, y, 60, "#3f67a5", vehicle);
-//             map.setZoomAndCenter(12, [x, y]);
-//         }
-//     })
-// }
-
-
-
-//将百度坐标转换为高德坐标
-
-function convert(baiduzuobiao){
-    var gaodezuobiao;
-
-    AMap.convertFrom(baiduzuobiao,'baidu',function(status,result){
-        if(result.info ==='ok'){
-            gaodezuobiao=result.locations[0];
-            return gaodezuobiao;
-        }
-
-
-    });
-
-
-
-}
-
-convert([121.464609,31.185062]);
-
-var xqinfo={'sname':123,'lnglat':[121.464609,31.185062]}
-
 //加载小区图标
 function addxqmarker(xqinfo1) {
     var xqMarker=new AMap.Marker({
         map:map,
-        title:xqinfo1['sname'],
-        position:xqinfo1['lnglat']
+        title:xqinfo1.sname,
+        position:xqinfo1.lnglat
 
     });
+
     xqMarkerArray.push(xqMarker)
     xqMarker.content="<div>小区：<a target = '_blank' href=''></a><div>"
-
     xqMarker.on('click',function(e){
         infoWindow.setContent(e.target.content);
         infoWindow.open(map,e.target.getPosition());
@@ -540,12 +494,8 @@ function addxqmarker(xqinfo1) {
 }
 
 
-
-
-
 //加载工作地周围的公交到达圈
 function loadWorkRange(workLocation1,t1, color1, v1) {
-
     delpolyonArray();
     arrivalRange.search(workLocation1, t1, function(status, result) {
         if (result.bounds) {
@@ -569,36 +519,12 @@ function loadWorkRange(workLocation1,t1, color1, v1) {
         policy: v1
     });
 }
-
-// var transOptions = {
-//         map: map,
-//         city: '北京市',
-//         panel: 'panel',
-//         //cityd:'乌鲁木齐',
-//         policy: AMap.TransferPolicy.LEAST_TIME
-//     };
-//     //构造公交换乘类
-//     var transfer = new AMap.Transfer(transOptions);
-//     //根据起、终点坐标查询公交换乘路线
-//     transfer.search(new AMap.LngLat(116.291035,39.907899), new AMap.LngLat(116.427281, 39.903719), function(status, result) {
-//         // result即是对应的公交路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_TransferResult
-//         if (status === 'complete') {
-//             console.log('绘制公交路线完成')
-//         } else {
-//             console.log('公交路线数据查询失败' + result)
-//         }
-//     });
-
-  
-  
-  
   
 function onClick(e) {
     map.remove(polygonArray);
    positionPicker.start(e.lnglat);
 }
 map.on('click', onClick);
-
 
     AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
       positionPicker = new PositionPicker({
@@ -622,32 +548,43 @@ map.on('click', onClick);
     positionPicker.start();
     
 });
-
+function bd_decrypt(bd_lng, bd_lat) {
+    var X_PI = Math.PI * 3000.0 / 180.0;
+    var x = bd_lng - 0.0065;
+    var y = bd_lat - 0.006;
+    var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * X_PI);
+    var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * X_PI);
+    var gg_lng = z * Math.cos(theta);
+    var gg_lat = z * Math.sin(theta);
+    return [gg_lng,gg_lat]
+}
+var xiaoquinfolist=[]
  $(document).ready(function () {
             $("#search").click(function () {
                 var price=$("#price").val();
                 var select_bedrooms=$("#select-bedrooms").val();
-                $.getJSON("{% url 'renthandle' %}",{'price':price,'select-bedrooms':select_bedrooms},function(ret){
-                    $.each(ret,function (i,xqdict) {
-                        console.log(xqdict)
-
-                    });
-                });
                 var t3=parseInt(document.getElementById('time').value.slice(0,2));
                         var t2=document.getElementById('time').value.slice(4,document.getElementById('time').value.search('分钟'));
                          if(document.getElementById("select-way").value=='地铁'){
                             vehicle='SUBWAY'
-                         };
+                         }
                          if(document.getElementById("select-way").value=='公交'){
                             vehicle='BUS'
-                         };
+                         }
 
                          loadWorkRange(workLocation,t3,'#3f67a5',vehicle);
-            });
-        });
-
-
-
+                $.getJSON("{% url 'renthandle' %}",{'price':price,'select-bedrooms':select_bedrooms},function(ret){
+                    $.each(ret,function (i,xqdict) {
+                        console.log(xqdict);
+                        var baiduzuobiao=[parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu)];
+                        console.log(baiduzuobiao);
+                        xqdict['lnglat']=bd_decrypt(parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu));
+                        console.log(xqdict.lnglat)
+                        xiaoquinfolist.push(xqdict)
+    });
+                    });
+ });
+});
 
 </script>
 

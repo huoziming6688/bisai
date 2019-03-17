@@ -36,7 +36,7 @@ def getinfo(request):
         elif a == '四':
             a = '4室'
         xiaoqulist = []
-        for xiaoqu in Subdistrict.objects.filter(house__housedetail__hprice__gte=min_price,house__housedetail__hprice__lte=max_price,house__housedetail__htype__contains=a):
+        for xiaoqu in Subdistrict.objects.filter(house__housedetail__hprice__gte=min_price,house__housedetail__hprice__lte=max_price,house__housedetail__htype__contains=a).distinct():
             xiaoquinfo = dict()
             xiaoquinfo['sid']=xiaoqu.sid
             xiaoquinfo['sname']=xiaoqu.sname
@@ -45,7 +45,7 @@ def getinfo(request):
             xiaoquinfo['jingdu']=xiaoqu.subdistrictlocation.jingdu
             xiaoquinfo['weidu']=xiaoqu.subdistrictlocation.weidu
             xiaoqulist.append(xiaoquinfo)
-        print(xiaoquinfo)
+        print(xiaoqulist)
 
         return JsonResponse(xiaoqulist,safe=False)
 
