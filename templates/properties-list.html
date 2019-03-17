@@ -559,10 +559,24 @@ function bd_decrypt(bd_lng, bd_lat) {
     var gg_lat = z * Math.sin(theta);
     return [gg_lng,gg_lat]
 }
+function addmarkerinpolygon() {
+    console.log(9999)
+     for (var i = 0; i<xiaoquinfolist.length; i++) {
+         var inRing=false;
+         for(var j=0;j<polygonArray.length;j++){
+
+             inRing =(inRing||AMap.GeometryUtil.isPointInRing(xiaoquinfolist[i].lnglat,polygonArray[j].getPath()));
+         }
+         if (inRing){
+             addxqmarker(xiaoquinfolist[i])
+         }
+     }
+}
 var xiaoquinfolist=[]
  $(document).ready(function () {
+
             $("#search").click(function () {
-                map.off('click',onClick)
+                //map.off('click',onClick)
 
                 var price=$("#price").val();
                 var select_bedrooms=$("#select-bedrooms").val();
@@ -576,44 +590,30 @@ var xiaoquinfolist=[]
                          }
 
                          loadWorkRange(workLocation,t2,'#3f67a5',vehicle);
+
+                         xiaoquinfolist=[]
+                $.ajaxSettings.async = false;
                 $.getJSON("{% url 'renthandle' %}",{'price':price,'select-bedrooms':select_bedrooms},function(ret){
                     $.each(ret,function (i,xqdict) {
-                        console.log(xqdict);
+                        //console.log(xqdict);
                         var baiduzuobiao=[parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu)];
-                        console.log(baiduzuobiao);
+                        //console.log(baiduzuobiao);
                         xqdict['lnglat']=bd_decrypt(parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu));
-                        console.log(xqdict.lnglat)
-                        var inRing=false;
-                         for(var j=0;j<polygonArray.length;j++){
-
-                        inRing =(inRing||AMap.GeometryUtil.isPointInRing(xqdict.lnglat,polygonArray[j].getPath()));
-
-         }
-                         if (inRing){
-             addxqmarker(xqdict)
-         }
-
+                        //console.log(xqdict.lnglat);
 
 
                         //addxqmarker(xqdict)
                         xiaoquinfolist.push(xqdict)
     });
                     });
-
+                console.log(xiaoquinfolist);
+                addmarkerinpolygon()
+                console.log(12312312321)
  });
-});
-function addmarkerinpolygon() {
-     for (var i = 0; i<xiaoquinfolist.length; i++) {
-         var inRing=false;
-         for(var j=0;j<polygonArray.length;j++){
 
-             inRing =(inRing||AMap.GeometryUtil.isPointInRing(xiaoquinfolist[i].lnglat,polygonArray[j].getPath()));
-         }
-         if (inRing){
-             addxqmarker(xiaoquinfolist[i])
-         }
-     }
-}
+});
+
+
 </script>
 
 
