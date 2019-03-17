@@ -1,0 +1,680 @@
+
+<html dir="ltr" lang="en-US">
+
+<head>
+    <!-- Document Meta
+    ============================================= -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--IE Compatibility Meta-->
+    <meta name="author" content="zytheme" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Real Estate html5 template">
+    <link href="/static/images/favicon/favicon.png" rel="icon">
+
+    <!-- Fonts
+    ============================================= -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CPoppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Stylesheets
+    ============================================= -->
+    <link href="/static/css/external.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="/static/js/html5shiv.js"></script>
+      <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Document Title
+    ============================================= -->
+    <title>住哪儿| Where to live</title>
+</head>
+
+<body>
+    <!-- Document Wrapper
+	============================================= -->
+    <div id="wrapper" class="wrapper clearfix">
+        <header id="navbar-spy" class="header header-1 header-transparent header-fixed">
+            <nav id="primary-menu" class="navbar navbar-fixed-top">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+                        <a class="logo" href="index.html">
+					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
+					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
+				</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-right" id="navbar-collapse-1">
+                        <ul class="nav navbar-nav nav-pos-center navbar-left">
+                            <!-- 首页 Menu -->
+                            <li><a href="{% url 'index' %}">首页</a></li>
+                            <!-- li end -->
+
+                            <!-- 地图 Menu -->
+                            <li><a href="{% url 'map' %}">地图</a></li>
+                            <!-- li end -->
+
+                            <!-- 租房 Menu -->
+                            <li><a href="{% url 'rent' %}">租房</a></li>
+                            <!-- li end -->
+
+                            <!-- 小区 Menu-->
+                            <li><a href="{% url 'xiaoqu' %}">小区</a></li>
+                            <!-- li end -->
+
+                            <!-- 我的 Menu -->
+                            <li class="has-dropdown active">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle menu-item">我的</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'infor' %}">个人信息</a></li>
+                                    <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
+                                    <li><a href="home-property.html">推荐房源</a></li>
+                                </ul>
+                            </li>
+                            <!-- li end -->
+
+                            <li><a href="{% url 'help' %}" target="_self">帮助</a></li>
+                        </ul>
+                        <!-- Module Signup  -->
+                        {% if request.user.is_authenticated %}
+
+                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+
+
+                            <!--<a class="btn-popup" data-toggle="modal" data-target="#signupModule">退出登录</a>-->
+
+                        {% else %}
+                        <div class="module module-login pull-left">
+                            <a class="btn-popup" data-toggle="modal" data-target="#signupModule">登录</a>
+                            <div class="modal register-login-modal fade" tabindex="-1" role="dialog" id="signupModule">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="row">
+
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a href="#login" data-toggle="tab">登录</a>
+                                                    </li>
+                                                    <li><a href="#signup" data-toggle="tab">注册</a>
+                                                    </li>
+                                                </ul>
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade in active" id="login">
+                                                        <div class="signup-form-container text-center">
+                                                            <form class="mb-0" method="get" action="{% url 'login' %}">
+                                                                <div class="or-text">
+                                                                    <span></span>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="email" class="form-control" name="email" id="login-email" placeholder="Email 地址">
+                                                                </div>
+                                                                <!-- .form-group end -->
+                                                                <div class="form-group">
+                                                                    <input type="password" class="form-control" name="password" id="login-password" placeholder="请输入密码">
+                                                                </div>
+                                                                <!-- .form-group end -->
+                                                                <div class="input-checkbox">
+                                                                    <label class="label-checkbox">
+                                <span>记住密码</span>
+                                <input type="checkbox">
+                                <span class="check-indicator"></span>
+                            </label>
+                                                                </div>
+                                                                <input type="submit" class="btn btn--primary btn--block" value="登录">
+                                                                <a href="#" class="forget-password">忘记密码?</a>
+                                                                {% csrf_token %}
+                                                            </form>
+                                                            <!-- form  end -->
+                                                        </div>
+                                                        <!-- .signup-form end -->
+                                                    </div>
+                                                    <div class="tab-pane" id="signup">
+                                                       <form class="mb-0" method="get" action="{% url 'register' %}">
+                                                            <div class="or-text">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="name" id="full-name" placeholder="姓名">
+                                                            </div>
+                                                            <!-- .form-group end -->
+                                                           <div class="form-group">
+                                                                <input type="email" class="form-control" name="email" id="register-email" placeholder="Email 地址">
+                                                            </div>
+                                                            <!-- .form-group end -->
+                                                           <div class="form-group">
+                                                                <input type="password" class="form-control" name="password" id="register-password" placeholder="密码">
+                                                            </div>
+                                                            <!-- .form-group end -->
+                                                           <div class="input-checkbox">
+                                                                <label class="label-checkbox">
+                                <span>我已经阅读并同意 <a href="#">用户协议</a></span>
+                                <input type="checkbox">
+                                <span class="check-indicator"></span>
+                            </label>
+                                                            </div>
+                                                            <input type="submit" class="btn btn--primary btn--block" value="注册">
+                                                        {% csrf_token %}
+                                                        </form>
+                                                        <!-- form  end -->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+
+        </header>
+        <!-- Hero Search
+============================================= -->
+        <section id="heroSearch" class="hero-search mtop-100 pt-0 pb-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+{#                        <div class="slider--content">#}
+{#                            <div class="text-center">#}
+{#                                <h1>搜索您的心仪房源</h1>#}
+{#                            </div>#}
+{#                            <form class="mb-0">#}
+{#                                <div class="form-box search-properties">#}
+{#                                    <div class="row">#}
+{#                                        <div class="col-xs-12 col-sm-6 col-md-3">#}
+{#                                            <div class="form-group">#}
+{#                                                <div class="select--box">#}
+{#                                                    <i class="fa fa-angle-down"></i>#}
+{#                                                    <select name="select-location" id="select-location">#}
+{#                                        <option>城市</option>#}
+{#                                        <option>上海</option>#}
+{#                                        <option>北京</option>#}
+{#                                        <option>广州</option>#}
+{#                                        <option>重庆</option>#}
+{#                                        <option>成都</option>#}
+{#                                        <option>深圳</option>#}
+{#                                    </select>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <!-- .col-md-3 end -->#}
+{#                                        <div class="col-xs-12 col-sm-6 col-md-3">#}
+{#                                            <div class="form-group">#}
+{#                                                <div class="select--box">#}
+{#                                                    <i class="fa fa-angle-down"></i>#}
+{#                                                    <select name="select-type" id="select-type">#}
+{#                                        <option>户型</option>#}
+{#                                        <option>一居</option>#}
+{#                                        <option>两居</option>#}
+{#                                        <option>三居</option>#}
+{#                                        <option>四居</option>#}
+{#                                    </select>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <!-- .col-md-3 end -->#}
+{#                                        <div class="col-xs-12 col-sm-6 col-md-3">#}
+{#                                            <div class="form-group">#}
+{#                                                <div class="select--box">#}
+{#                                                    <i class="fa fa-angle-down"></i>#}
+{#                                                    <select name="select-status" id="select-status">#}
+{#                                        <option>朝向</option>#}
+{#                                        <option>东</option>#}
+{#                                        <option>西</option>#}
+{#                                        <option>南</option>#}
+{#                                        <option>北</option>#}
+{#                                    </select>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <!-- .col-md-3 end -->#}
+{#                                        <div class="col-xs-12 col-sm-6 col-md-3">#}
+{#                                            <input type="submit" value="搜索" name="submit" class="btn btn--primary btn--block">#}
+{#                                        </div>#}
+{#                                        <!-- .col-md-3 end -->#}
+{##}
+{#                                        <div class="col-xs-12 col-sm-6 col-md-6 option-hide">#}
+{#                                            <center>#}
+{#                                                <div class="filter mb-30">#}
+{#                                                    <p>#}
+{#                                                    <label for="amount">价格区间: </label>#}
+{#                                                    <input id="amount" type="text" class="amount" readonly>#}
+{#                                                    </p>#}
+{#                                                <div class="slider-range"></div>#}
+{#                                            </div>#}
+{#                                            </center>#}
+{#                                        </div>#}
+{##}
+{#                                        <!-- .col-md-3 end -->#}
+{#                                        <div class="col-xs-12 col-sm-12 col-md-12">#}
+{#                                            <a href="#" class="less--options">展开更多</a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <!-- .row end -->#}
+{#                                </div>#}
+{#                                <!-- .form-box end -->#}
+{#                            </form>#}
+{#                        </div>#}
+                    </div>
+                    <!-- .container  end -->
+                </div>
+                <!-- .slider-text end -->
+            </div>
+            <div class="carousel slider-navs" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="true" data-dots="false" data-space="0" data-loop="true" data-speed="800">
+                <!-- Slide #1 -->
+                <div class="slide--item bg-overlay bg-overlay-dark3">
+                    <div class="bg-section">
+                        <img src="/static/images/slider/slide-bg/3.jpg" alt="background">
+                    </div>
+                </div>
+                <!-- .slide-item end -->
+                <!-- Slide #2 -->
+                <div class="slide--item bg-overlay bg-overlay-dark3">
+                    <div class="bg-section">
+                        <img src="/static/images/slider/slide-bg/1.jpg" alt="background">
+                    </div>
+                </div>
+                <!-- .slide-item end -->
+                <!-- Slide #3 -->
+                <div class="slide--item bg-overlay bg-overlay-dark3">
+                    <div class="bg-section">
+                        <img src="/static/images/slider/slide-bg/3.jpg" alt="background">
+                    </div>
+                </di
+                <!-- .slide-item end -->
+            </div>
+        </section>
+        <!-- #property-single-slider end -->
+
+        <!-- properties-carousel
+============================================= -->
+{#<section id="properties-carousel" class="properties-carousel pt-90 pb-90">#}
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-xs-12 col-sm-12 col-md-12">#}
+{#                <div class="heading heading-2 text-center mb-70">#}
+{#                    <h2 class="heading--title">推荐好房</h2>#}
+{#                    <p class="heading--desc">以下为"住哪儿"网为您推荐的好房</p>#}
+{#                </div>#}
+{#                <!-- .heading-title end -->#}
+{#            </div>#}
+{#            <!-- .col-md-12 end -->#}
+{#        </div>#}
+{#        <!-- .row end -->#}
+{#        <div class="row">#}
+{#            <div class="col-xs-12 col-sm-12 col-md-12">#}
+{#                <div class="carousel carousel-dots" data-slide="3" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="true" data-space="25" data-loop="true" data-speed="800">#}
+{#                    <!-- .property-item #1 -->#}
+{#                    <div class="property-item">#}
+{#                        <div class="property--img">#}
+{#                            <a href="#">#}
+{#                    <img src="/static/images/properties/3.jpg" alt="property image" class="img-responsive">#}
+{#                    <span class="property--status">For Sale</span>#}
+{#</a>#}
+{#                        </div>#}
+{#                        <div class="property--content">#}
+{#                            <div class="property--info">#}
+{#                                <h5 class="property--title"><a href="#">Apartment in Long St.</a></h5>#}
+{#                                <p class="property--location">34 Long St, Jersey City, NJ 07305</p>#}
+{#                                <p class="property--price">¥70,000</p>#}
+{#                            </div>#}
+{#                            <!-- .property-info end -->#}
+{#                            <div class="property--features">#}
+{#                                <ul class="list-unstyled mb-0">#}
+{#                                    <li><span class="feature">户型:</span><span class="feature-num">2</span></li>#}
+{#                                    <li><span class="feature">面积:</span><span class="feature-num">200 m2</span></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <!-- .property-features end -->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!-- .property item end -->#}
+{##}
+{#                    <!-- .property-item #2 -->#}
+{#                    <div class="property-item">#}
+{#                        <div class="property--img">#}
+{#                            <a href="#">#}
+{#                    <img src="/static/images/properties/11.jpg" alt="property image" class="img-responsive">#}
+{#                    <span class="property--status">For Sale</span>#}
+{#                    </a>#}
+{#                        </div>#}
+{#                        <div class="property--content">#}
+{#                            <div class="property--info">#}
+{#                                <h5 class="property--title">Villa in Chicago IL</h5>#}
+{#                                <p class="property--location">1445 N State Pkwy, Chicago, IL 60610</p>#}
+{#                                <p class="property--price">¥235,000</p>#}
+{#                            </div>#}
+{#                            <!-- .property-info end -->#}
+{#                            <div class="property--features">#}
+{#                                <ul class="list-unstyled mb-0">#}
+{#                                    <li><span class="feature">户型:</span><span class="feature-num">3</span></li>#}
+{#                                    <li><span class="feature">面积:</span><span class="feature-num">1120 m2</span></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <!-- .property-features end -->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!-- .property item end -->#}
+{##}
+{#                    <!-- .property-item #3 -->#}
+{#                    <div class="property-item">#}
+{#                        <div class="property--img">#}
+{#                            <a href="#">#}
+{#                    <img src="/static/images/properties/5.jpg" alt="property image" class="img-responsive">#}
+{#                    <span class="property--status">For Rent</span>#}
+{#                    </a>#}
+{#                        </div>#}
+{#                        <div class="property--content">#}
+{#                            <div class="property--info">#}
+{#                                <h5 class="property--title">2750 House in Urban St.</h5>#}
+{#                                <p class="property--location">2750 Urban Street Dr, Anderson, IN 46011</p>#}
+{#                                <p class="property--price">¥1,550<span class="time">月</span></p>#}
+{#                            </div>#}
+{#                            <!-- .property-info end -->#}
+{#                            <div class="property--features">#}
+{#                                <ul class="list-unstyled mb-0">#}
+{#                                    <li><span class="feature">户型:</span><span class="feature-num">2</span></li>#}
+{#                                    <li><span class="feature">面积:</span><span class="feature-num">1390 m2</span></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <!-- .property-features end -->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!-- .property item end -->#}
+{##}
+{#                    <!-- .property-item #4 -->#}
+{#                    <div class="property-item">#}
+{#                        <div class="property--img">#}
+{#                            <a href="#">#}
+{#                    <img src="/static/images/properties/4.jpg" alt="property image" class="img-responsive">#}
+{#                    <span class="property--status">For Sale</span>#}
+{#                    </a>#}
+{#                        </div>#}
+{#                        <div class="property--content">#}
+{#                            <div class="property--info">#}
+{#                                <h5 class="property--title"><a href="#">House in Kent Street</a></h5>#}
+{#                                <p class="property--location">127 Kent Street, Sydney, NSW 2000</p>#}
+{#                                <p class="property--price">¥130,000</p>#}
+{#                            </div>#}
+{#                            <!-- .property-info end -->#}
+{#                            <div class="property--features">#}
+{#                                <ul class="list-unstyled mb-0">#}
+{#                                    <li><span class="feature">户型:</span><span class="feature-num">2</span></li>#}
+{#                                    <li><span class="feature">面积:</span><span class="feature-num">587 m2</span></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <!-- .property-features end -->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!-- .property item end -->#}
+{##}
+{#                    <!-- .property-item #5 -->#}
+{#                    <div class="property-item">#}
+{#                        <div class="property--img">#}
+{#                            <a href="#">#}
+{#                    <img src="/static/images/properties/2.jpg" alt="property image" class="img-responsive">#}
+{#                    <span class="property--status">For Rent</span>#}
+{#</a>#}
+{#                        </div>#}
+{#                        <div class="property--content">#}
+{#                            <div class="property--info">#}
+{#                                <h5 class="property--title"><a href="#">Villa in Oglesby Ave</a></h5>#}
+{#                                <p class="property--location">1035 Oglesby Ave, Chicago, IL 60617</p>#}
+{#                                <p class="property--price">¥130,000<span class="time">月</span></p>#}
+{#                            </div>#}
+{#                            <!-- .property-info end -->#}
+{#                            <div class="property--features">#}
+{#                                <ul class="list-unstyled mb-0">#}
+{#                                    <li><span class="feature">户型:</span><span class="feature-num">4</span></li>#}
+{#                                    <li><span class="feature">面积:</span><span class="feature-num">800 m2</span></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <!-- .property-features end -->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!-- .property item end -->#}
+{##}
+{#                    <!-- .property-item #6 -->#}
+{#                    <div class="property-item">#}
+{#                        <div class="property--img">#}
+{#                            <a href="#">#}
+{#                    <img src="/static/images/properties/3.jpg" alt="property image" class="img-responsive">#}
+{#                    <span class="property--status">For Sale</span>#}
+{#</a>#}
+{#                        </div>#}
+{#                        <div class="property--content">#}
+{#                            <div class="property--info">#}
+{#                                <h5 class="property--title"><a href="#">Apartment in Long St.</a></h5>#}
+{#                                <p class="property--location">34 Long St, Jersey City, NJ 07305</p>#}
+{#                                <p class="property--price">¥70,000</p>#}
+{#                            </div>#}
+{#                            <!-- .property-info end -->#}
+{#                            <div class="property--features">#}
+{#                                <ul class="list-unstyled mb-0">#}
+{#                                    <li><span class="feature">户型:</span><span class="feature-num">2</span></li>#}
+{#                                    <li><span class="feature">面积:</span><span class="feature-num">200 m2</span></li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                            <!-- .property-features end -->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!-- .property item end -->#}
+{##}
+{#                </div>#}
+{#                <!-- .carousel end -->#}
+{#            </div>#}
+{#            <!-- .col-md-12 -->#}
+{#        </div>#}
+{#        <!-- .row -->#}
+{#    </div>#}
+{#    <!-- .container -->#}
+{#</section>#}
+<!-- #properties-carousel  end
+============================================= -->
+        <section id="feature" class="feature feature-1 text-center bg-white pb-90">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="heading heading-2 text-center mb-70">
+                            <h1>找房难？租房难？</h1>
+                            <h2>不用担心！爬虫+地图助你找到心仪房源</h2>
+                            <h2 class="heading--title">选房步骤</h2>
+                            <p class="heading--desc">仅需简单几步 轻松选出心仪房源</p>
+                        </div>
+                        <!-- .heading-title end -->
+                    </div>
+                    <!-- .col-md-12 end -->
+                </div>
+                <!-- .row end -->
+                <div class="row">
+                    <!-- feature Panel #1 -->
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="feature-panel">
+                            <div class="feature--icon">
+                                <img src="/static/images/features/icons/5.png" alt="icon img">
+                            </div>
+                            <div class="feature--content">
+                                <h3>按条件搜索</h3>
+                                <p>在首页根据您选择的条件，搜索出符合条件的房源</p>
+                            </div>
+                        </div>
+                        <!-- .feature-panel end -->
+                    </div>
+                    <!-- .col-md-4 end -->
+                    <!-- feature Panel #2 -->
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="feature-panel">
+                            <div class="feature--icon">
+                                <img src="/static/images/features/icons/6.png" alt="icon img">
+                            </div>
+                            <div class="feature--content">
+                                <h3>收藏心仪房源</h3>
+                                <p>将心仪房源加入收藏列表</p>
+                            </div>
+                        </div>
+                        <!-- .feature-panel end -->
+                    </div>
+                    <!-- .col-md-4 end -->
+                    <!-- feature Panel #3 -->
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="feature-panel">
+                            <div class="feature--icon">
+                                <img src="/static/images/features/icons/7.png" alt="icon img">
+                            </div>
+                            <div class="feature--content">
+                                <h3>联系中介/房东</h3>
+                                <p>根据房源信息，与中介/房东取得联系</p>
+                            </div>
+                        </div>
+                        <!-- .feature-panel end -->
+                    </div>
+                    <!-- .col-md-4 end -->
+                </div>
+                <!-- .row end -->
+            </div>
+            <!-- .container end -->
+        </section>
+        <!-- .feature end -->
+
+        <!-- Footer #1
+============================================= -->
+        <footer id="footer" class="footer footer-1 bg-white">
+            <!-- Widget Section
+	============================================= -->
+            <div class="footer-widget">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3 widget--about">
+                            <div class="widget--content">
+                                <div class="footer--logo">
+                                    <img src="/static/images/logo/logo-dark2.png" alt="logo">
+                                </div>
+                                <p>上海市长宁区延安西路1882号</p>
+                                <div class="footer--contact">
+                                    <ul class="list-unstyled mb-0">
+                                        <li>+86 210 888 888</li>
+                                        <li><a href="mailto:contact@163.com">contact@163.com</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .col-md-2 end -->
+                        <div class="col-xs-12 col-sm-3 col-md-2 col-md-offset-1 widget--links">
+                            <div class="widget--title">
+                                <h5>关于我们</h5>
+                            </div>
+                            <div class="widget--content">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#">团队介绍</a></li>
+                                    <li><a href="#">创意来源</a></li>
+                                    <li><a href="#">招贤纳士</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .col-md-2 end -->
+                        <div class="col-xs-12 col-sm-3 col-md-2 widget--links">
+                            <div class="widget--title">
+                                <h5>友情链接</h5>
+                            </div>
+                            <div class="widget--content">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="https://sh.lianjia.com">链家</a></li>
+                                    <li><a href="https://shanghai.anjuke.com">安居客</a></li>
+                                    <li><a href="https://yuzhu.me">寓住</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .col-md-2 end -->
+                        <div class="col-xs-12 col-sm-12 col-md-4 widget--newsletter">
+                            <div class="widget--title">
+                                <h5>发送邮件</h5>
+                            </div>
+                            <div class="widget--content">
+                                <form class="newsletter--form mb-40">
+                                    <input type="email" class="form-control" id="newsletter-email" placeholder="Email 地址">
+                                    <button type="submit"><i class="fa fa-arrow-right"></i></button>
+                                </form>
+                                <h6>取得联系</h6>
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-vimeo"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .col-md-4 end -->
+
+                    </div>
+                </div>
+                <!-- .container end -->
+            </div>
+            <!-- .footer-widget end -->
+
+            <!-- Copyrights
+	============================================= -->
+            <div class="footer--copyright text-center">
+                <div class="container">
+                    <div class="row footer--bar">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <span>© 住哪儿网科技有限公司，<a>互联网经营许可证 | 沪ICP备12345号-1</a>，@copyright2018-2019 住哪儿网版权所有.</span>
+                        </div>
+
+                    </div>
+                    <!-- .row end -->
+                </div>
+                <!-- .container end -->
+            </div>
+            <!-- .footer-copyright end -->
+        </footer>
+    </div>
+    <!-- #wrapper end -->
+
+    <!-- Footer Scripts
+============================================= -->
+    <script src="/static/js/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/functions.js"></script>
+<script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);
+a=h.getElementsByTagName(i)[0];P.src=k;
+P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};
+T["ThinkPageWeatherWidgetObject"]=n;
+T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});
+T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
+<script>tpwidget("init", {
+    "flavor": "bubble",
+    "location": "WTW3SJ5ZBJUY",
+    "geolocation": "enabled",
+    "position": "top-left",
+    "margin": "10px 160px",
+    "language": "zh-chs",
+    "unit": "c",
+    "theme": "chameleon",
+    "uid": "UC346C5E6E",
+    "hash": "6f1e6ed65b8cf9fe15f24729b412c09a"
+});
+tpwidget("show");</script>
+</body>
+
+</html>
