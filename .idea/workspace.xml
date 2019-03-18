@@ -38,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="570" lean-forward="true" selection-start-line="570" selection-end-line="570" />
+            <state relative-caret-position="2690">
+              <caret line="540" column="27" lean-forward="true" selection-start-line="540" selection-start-column="27" selection-end-line="540" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -47,8 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/operations/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+            <state relative-caret-position="333">
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
               </folding>
@@ -79,8 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>image</find>
-      <find>house</find>
       <find>onclick</find>
       <find>time</find>
       <find>form</find>
@@ -109,6 +107,8 @@
       <find>panel</find>
       <find>marker</find>
       <find>polygonarray</find>
+      <find>click</find>
+      <find>amaptrans</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/</replace>
@@ -152,9 +152,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="605" />
-    <option name="y" value="191" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="682" />
+    <option name="y" value="162" />
     <option name="width" value="1335" />
     <option name="height" value="845" />
   </component>
@@ -373,11 +373,12 @@
       <workItem from="1552791766096" duration="12092000" />
       <workItem from="1552826042364" duration="1391000" />
       <workItem from="1552827511673" duration="2862000" />
+      <workItem from="1552903220051" duration="4559000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48307000" />
+    <option name="totallyTimeSpent" value="52866000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -389,15 +390,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49894738" visible="true" weight="0.17828418" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49894738" visible="true" weight="0.122654155" />
       <window_info id="Structure" order="1" sideWeight="0.5010526" side_tool="true" weight="0.1508043" />
       <window_info id="Favorites" order="2" sideWeight="0.5010526" side_tool="true" weight="0.1508043" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3286119" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32107496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -679,23 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="570" lean-forward="true" selection-start-line="570" selection-end-line="570" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/operations/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bisai/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
@@ -703,6 +686,23 @@
           <folding>
             <element signature="e#629#642#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/operations/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/properties-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2690">
+          <caret line="540" column="27" lean-forward="true" selection-start-line="540" selection-start-column="27" selection-end-line="540" selection-end-column="27" />
         </state>
       </provider>
     </entry>

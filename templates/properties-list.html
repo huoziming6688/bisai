@@ -461,6 +461,7 @@ function delpolyonArray(){
 
 //加载小区图标
 function addxqmarker(xqinfo1) {
+
     var xqMarker=new AMap.Marker({
         map:map,
         title:xqinfo1.sname,
@@ -522,7 +523,7 @@ function loadWorkRange(workLocation1,t1, color1, v1) {
 }
   
 function onClick(e) {
-    map.remove(polygonArray);
+
    positionPicker.start(e.lnglat);
 }
 map.on('click', onClick);
@@ -535,6 +536,7 @@ map.on('click', onClick);
     //TODO:事件绑定、结果处理等
   
     positionPicker.on('success',function(positionResult){
+         if(amapTransfer) amapTransfer.clear();
         if(workAddress==''){
             document.getElementById('location').value = workAddress;
             workAddress=positionResult.address;
@@ -560,17 +562,22 @@ function bd_decrypt(bd_lng, bd_lat) {
     return [gg_lng,gg_lat]
 }
 function addmarkerinpolygon() {
-
+    console.log('等待了五秒')
      for (var i = 0; i<xiaoquinfolist.length; i++) {
-          console.log(9999)
+        console.log(xiaoquinfolist[i])
          var inRing=false;
          for(var j=0;j<polygonArray.length;j++){
 
-             inRing =(inRing||AMap.GeometryUtil.isPointInRing(xiaoquinfolist[i].lnglat,polygonArray[j].getPath()));
+             if(AMap.GeometryUtil.isPointInRing(xiaoquinfolist[i].lnglat,polygonArray[j].getPath())){
+                 inRing=true
+                 break;
+             }
          }
 
+
+
          if (inRing){
-             console.log(100000)
+
              addxqmarker(xiaoquinfolist[i])
          }
      }
@@ -595,7 +602,7 @@ var xiaoquinfolist=[]
                          loadWorkRange(workLocation,t2,'#3f67a5',vehicle);
 
                          xiaoquinfolist=[]
-                $.ajaxSettings.async = false;
+               $.ajaxSettings.async = false;
                 $.getJSON("{% url 'renthandle' %}",{'price':price,'select-bedrooms':select_bedrooms},function(ret){
                     $.each(ret,function (i,xqdict) {
                         //console.log(xqdict);
@@ -603,15 +610,13 @@ var xiaoquinfolist=[]
                         //console.log(baiduzuobiao);
                         xqdict['lnglat']=bd_decrypt(parseFloat(xqdict.jingdu),parseFloat(xqdict.weidu));
                         //console.log(xqdict.lnglat);
-
-
                         //addxqmarker(xqdict)
                         xiaoquinfolist.push(xqdict)
     });
                     });
                 console.log(xiaoquinfolist);
-                addmarkerinpolygon()
-                console.log(12312312321)
+
+        setTimeout(addmarkerinpolygon,200);
  });
 
 });

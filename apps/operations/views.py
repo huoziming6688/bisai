@@ -45,7 +45,7 @@ def getinfo(request):
             xiaoquinfo['jingdu']=xiaoqu.subdistrictlocation.jingdu
             xiaoquinfo['weidu']=xiaoqu.subdistrictlocation.weidu
             xiaoqulist.append(xiaoquinfo)
-        print(xiaoqulist)
+        # print(xiaoqulist)
 
         return JsonResponse(xiaoqulist,safe=False)
 
