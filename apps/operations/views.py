@@ -9,7 +9,7 @@ from users.models import UserProfile
 from django.db.models import Q
 # Create your views here.
 import json
-
+from django.db.models import Sum
 #改动了views prolist 和urls
 
 
@@ -38,14 +38,16 @@ def getinfo(request):
         xiaoqulist = []
         for xiaoqu in Subdistrict.objects.filter(house__housedetail__hprice__gte=min_price,house__housedetail__hprice__lte=max_price,house__housedetail__htype__contains=a).distinct():
             xiaoquinfo = dict()
+            xiaoquinfo['housecount']=xiaoqu.house_set.filter(housedetail__hprice__gte=min_price,housedetail__hprice__lte=max_price,housedetail__htype__contains=a).count()
             xiaoquinfo['sid']=xiaoqu.sid
+            xiaoquinfo['avgprice']=round(xiaoqu.house_set.filter(housedetail__hprice__gte=min_price, housedetail__hprice__lte=max_price,
+                                    housedetail__htype__contains=a).aggregate(totalprict=Sum('housedetail__hprice'))['totalprict']/xiaoquinfo['housecount'])
             xiaoquinfo['sname']=xiaoqu.sname
-            xiaoquinfo['bulit_time']=xiaoqu.subdistrictdetail.built_time
+            xiaoquinfo['built_time']=xiaoqu.subdistrictdetail.built_time
             xiaoquinfo['address']=xiaoqu.subdistrictdetail.subaddress
             xiaoquinfo['jingdu']=xiaoqu.subdistrictlocation.jingdu
             xiaoquinfo['weidu']=xiaoqu.subdistrictlocation.weidu
             xiaoqulist.append(xiaoquinfo)
-        # print(xiaoqulist)
 
         return JsonResponse(xiaoqulist,safe=False)
 
