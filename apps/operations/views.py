@@ -36,7 +36,7 @@ def getinfo(request):
         elif a == '四':
             a = '4室'
         xiaoqulist = []
-        for xiaoqu in Subdistrict.objects.filter(house__housedetail__hprice__gte=min_price,house__housedetail__hprice__lte=max_price,house__housedetail__htype__contains=a).distinct():
+        for xiaoqu in Subdistrict.objects.filter(house__housedetail__hprice__gte=min_price,house__housedetail__hprice__lte=max_price,house__housedetail__htype__contains=a).distinct()[::10]:
             xiaoquinfo = dict()
             xiaoquinfo['housecount']=xiaoqu.house_set.filter(housedetail__hprice__gte=min_price,housedetail__hprice__lte=max_price,housedetail__htype__contains=a).count()
             xiaoquinfo['sid']=xiaoqu.sid
