@@ -232,7 +232,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group input-icon">
                                             <i class="fa fa-map-marker"></i>
-                                            <input type="text" class="form-control" id="location" placeholder="地址" name="location" value="">
+                                            <input type="text" class="form-control" id="location" placeholder="输入地址、拖拽标记或点击地图试试吧" name="location" value="">
                                         </div>
                                     </div>
 
@@ -403,7 +403,7 @@
     //经度，纬度，时间，通勤方式
     var x,y,t,vehicle="SUBWAY,BUS"
     //工作地点，工作地点标记
-    var workAddress='',workMarker,workLocation;
+    var workAddress,workMarker,workLocation;
     //小区标记队列
     var xqMarkerArray=[];
     //多边形队列，储存公交到达的计算结果
@@ -413,14 +413,9 @@
     var amapTransfer;
     var positionPicker;
     var city='上海';
-
-
-
-
-
-
-
-
+    var xiaoquinfolist=[]
+    var price
+    var select_bedrooms
 
 
 
@@ -439,11 +434,12 @@ var auto = new AMap.Autocomplete(autoOptions);
 AMap.event.addListener(auto, "select", workLocationSelected);
 
 function workLocationSelected(e) {
-    workAddress=''
     //更新工作地点，
     workAddress = e.poi.name;
     workLocation=e.poi.location;
-    positionPicker.start(workLocation);
+    map.remove(workMarker)
+    loadworkmarker(workLocation,workAddress)
+    document.getElementById('location').value = workAddress;
 
 }
 
@@ -475,7 +471,8 @@ function addxqmarker(xqinfo1) {
             +'建成时间：'+xqinfo1.built_time+'<br>'
             +'符合要求房源：'+xqinfo1.housecount+'个<br>'
             +'租房均价：'+xqinfo1.avgprice+'元/月<br>'
-        +'<a target = \'_blank\' href="/xiaoqu/'+xqinfo1.sid+'/?select_bedrooms='+select_bedrooms+'&price='+price+'">查看符合要求房源</a><div>'
+            +'<div>'
+        +'<a target = \'_blank\' href="/xiaoqu/'+xqinfo1.sid+'/?select_bedrooms='+select_bedrooms+'&price='+price+'">查看符合要求房源</a>'
     xqMarker.on('click',function(e){
         infoWindow.setContent(e.target.content);
         infoWindow.open(map,e.target.getPosition());
@@ -499,8 +496,23 @@ function addxqmarker(xqinfo1) {
     }
     );
 }
-
-
+//加载工作地标
+function loadworkmarker(location,address){
+    workMarker=new AMap.Marker({
+        map:map,
+        draggable:true,
+        title:address,
+        icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+        position:location,
+    });
+    workMarker.on('dragging',markerdrag)
+}
+function markerdrag() {
+     workLocation=workMarker.getPosition();
+     location_to_address(workLocation);
+     workMarker.setTitle(workAddress)
+     document.getElementById('location').value = workAddress;
+}
 //加载工作地周围的公交到达圈
 function loadWorkRange(workLocation1,t1, color1, v1) {
     delpolyonArray();
@@ -526,36 +538,73 @@ function loadWorkRange(workLocation1,t1, color1, v1) {
         policy: v1
     });
 }
-  
-function onClick(e) {
+function location_to_address(location) {
+    var geocoder = new AMap.Geocoder({
+    // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+    city: city
+  })
 
-   positionPicker.start(e.lnglat);
+
+  geocoder.getAddress(location, function(status, result) {
+    if (status === 'complete' && result.info === 'OK') {
+        // result为对应的地理位置详细信息
+        workAddress=result.regeocode.formattedAddress
+    }
+  })
+}
+function onClick(e) {
+    map.remove(workMarker);
+    workLocation=e.lnglat;
+    location_to_address(e.lnglat);
+   loadworkmarker(e.lnglat,workAddress);
+   document.getElementById('location').value = workAddress;
+}
+function mapcomplete(){
+    workLocation=map.getCenter();
+    location_to_address(workLocation);
+    loadworkmarker(workLocation,'');
+
 }
 map.on('click', onClick);
+map.on('complete',mapcomplete);
+function address_to_location(address) {
+     var geocoder = new AMap.Geocoder({
+        city: city,
 
-    AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
-      positionPicker = new PositionPicker({
-        mode:'dragMarker',//设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
-        map:map//依赖地图对象
     });
-    //TODO:事件绑定、结果处理等
-  
-    positionPicker.on('success',function(positionResult){
-         if(amapTransfer) amapTransfer.clear();
-        if(workAddress==''){
-            document.getElementById('location').value = workAddress;
-            workAddress=positionResult.address;
-            workLocation=positionResult.position;
+    geocoder.getLocation(address, function(status, result) {
+        if (status === "complete" && result.info === 'OK') {
+            var geocode = result.geocodes[0];
+            workLocation=[geocode.location.getLng(),geocode.location.getLat()]
         }
-        else{
-            workAddress=positionResult.address;
-            document.getElementById('location').value = workAddress;
-            workLocation=positionResult.position;
-        }
+        else{alert('请输入正确的地址')}
+
     });
-    positionPicker.start();
-    
-});
+}
+
+//    AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+//      positionPicker = new PositionPicker({
+//        mode:'dragMarker',//设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
+//        map:map//依赖地图对象
+//    });
+//    //TODO:事件绑定、结果处理等
+
+//    positionPicker.on('success',function(positionResult){
+//         if(amapTransfer) amapTransfer.clear();
+//        if(workAddress==''){
+//            document.getElementById('location').value = workAddress;
+//            workAddress=positionResult.address;
+//            workLocation=positionResult.position;
+//        }
+//        else{
+//            workAddress=positionResult.address;
+//            document.getElementById('location').value = workAddress;
+//            workLocation=positionResult.position;
+//        }
+//    });
+ //   positionPicker.start();
+
+//});
 function bd_decrypt(bd_lng, bd_lat) {
     var X_PI = Math.PI * 3000.0 / 180.0;
     var x = bd_lng - 0.0065;
@@ -594,7 +643,7 @@ function addmarkerinpolygon() {
             '个</span>'+
                 '</div>'+
                 '<div class="property--content"><div class="property--info"><h5 class="property--title">'+
-                '<a href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+select_bedrooms+'&price='+price+
+                '<a href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+String(select_bedrooms)+'&price='+String(price)+
                 '">'+xiaoquinfolist[i].sname+xiaoquinfolist[i].built_time+'</a></h5>'+
                 '<p class="property--location">'
              if(xiaoquinfolist[i].address!=null){
@@ -634,9 +683,7 @@ function addmarkerinpolygon() {
 
     div.innerHTML =str;
 }
-var xiaoquinfolist=[]
-var price
-var select_bedrooms
+
  $(document).ready(function () {
 
             $("#search").click(function () {
@@ -671,8 +718,8 @@ var select_bedrooms
                     });
         setTimeout(addmarkerinpolygon,100);
  });
-
 });
 </script>
+
 </body>
 </html>
