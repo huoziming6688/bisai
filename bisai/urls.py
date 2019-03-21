@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
+from houses.views import *
 from users.views import RegisterView, ActiveUserView, LoginView, LogoutView, Show
 from subdistricts.views import xiaoquview
 from django.views.static import serve
@@ -39,6 +40,8 @@ urlpatterns = [
     re_path('logout/$', LogoutView.as_view(), name='logout'),
     re_path('edit/$', Show.as_view(), name='edit'),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
-    # re_path(r'^image/upload/$', UploadImageView.as_view(), name="image_upload"),
-    # re_path('upload/$', UserImageView.as_view(), name='upload'),
+    re_path('^xiaoqu/(?P<sid>L\d{10})/$', Houseinfo.as_view(), name='house-list'),
+    # 房源详细
+    re_path(r'^housedetail/(?P<hid>L\d+)/$', ShowHouseDetail.as_view(), name='house_detail'),
+    re_path('^add_fav/$', AddfavView.as_view(), name='add_fav'),
 ]

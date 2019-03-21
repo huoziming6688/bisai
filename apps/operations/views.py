@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.template.response import TemplateResponse
 from django.views.generic.base import View
 # from .forms import SearchForm
@@ -9,6 +9,7 @@ from users.models import UserProfile
 from django.db.models import Q
 # Create your views here.
 import json
+from operations.models import *
 from django.db.models import Sum
 #改动了views prolist 和urls
 
@@ -52,4 +53,20 @@ def getinfo(request):
         return JsonResponse(xiaoqulist,safe=False)
 
 
+class UserCenterView(View):
+    #@method_decorator(login_required)
+    def get(self, request):
+        return render(request, 'user-profile.html', {})
 
+
+class AddfavView(View):
+    # @method_decorator(login_required)
+    def post(self, request):
+        user_fav = UserFavorite()
+        hid = request.POST.get('hid', '')
+        user_fav.user = request.user
+        # A = HouseDetail.objects.get(hid=hid)
+        # user_fav.hid = A
+        user_fav.hid = hid
+        user_fav.save()
+        return HttpResponse('{"status":"success", "msg":"已收藏"}', content_type='application/json')
