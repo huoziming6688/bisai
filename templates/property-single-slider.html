@@ -324,30 +324,105 @@
                         </div>
                         <!-- .property-single-desc end -->
 
-
-
-                                            </div>
-                                        </div>
-                                        <!-- .panel end -->
+                        <div class="property-single-features inner-box">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="heading">
+                                        <h2 class="heading--title">房源标签</h2>
                                     </div>
-                                    <!-- End .Accordion-->
+                                </div>
+                                <!-- feature-item #1 -->
+                                <!-- feature-item #2 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>电视</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #3 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>空调</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #4 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>冰箱</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #5 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>暖气</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #6 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>无线网</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #7 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>电梯</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #8 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>天然气</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                                <!-- feature-item #9 -->
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>热水器</p>
+                                    </div>
+                                </div>
+                                <!-- feature-item end -->
+                            </div>
+                            <!-- .row end -->
+                        </div>
+                        <!-- .property-single-features 房源标签 end -->
+
+                        <div class="property-single-location inner-box">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="heading">
+                                        <h2 class="heading--title">房源坐标</h2>
+                                    </div>
+                                </div>
+                                <!-- .col-md-12 end -->
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <ul class="list-unstyled mb-20">
+                                        <li><span>城市:</span>上海市</li>
+                                        <li><span>区:</span>长宁区</li>
+                                        <li><span>地址:</span>延安西路 1882号</li>
+                                    </ul>
+                                </div>
+                                <!-- .col-md-12 end -->
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div id="googleMap" style="width:100%;height:380px;"></div>
                                 </div>
                                 <!-- .col-md-12 end -->
                             </div>
                             <!-- .row end -->
                         </div>
-                        <!-- .property-single-design end -->
-
+                        <!-- .property-single-location end -->
                     </div>
-                    <!-- .col-md-4 -->
-                </div>
-                <!-- .row -->
+                 </div>
             </div>
             <!-- .container -->
         </section>
         <!-- #property-single end -->
-
-
         <!-- properties-carousel
 ============================================= -->
         <section id="properties-carousel" class="properties-carousel properties-grid pt-0">
@@ -663,8 +738,27 @@ $(document).ready(function() {
         add_fav($(this), '{{ hid }}');
     });
 });
-
 </script>
+
+<script src="http://ditu.google.cn/maps/api/js?sensor=true&amp;key=AIzaSyCiRALrXFl5vovX0hAkccXXBFh7zP8AOW8"></script>
+    <script src="/static/js/plugins/jquery.gmap.min.js"></script>
+    <script>
+        $('#googleMap').gMap({
+            address: "121 King St,Melbourne, Australia",
+            zoom: 12,
+            maptype: 'ROADMAP',
+            markers: [{
+                address: "Melbourne, Australia",
+                maptype: 'ROADMAP',
+                icon: {
+                    image: "assets/images/gmap/marker1.png",
+                    iconsize: [52, 75],
+                    iconanchor: [52, 75]
+                }
+            }]
+        });
+
+    </script><script src="assets/js/map-custom.js"></script>
 </body>
 
 </html>
