@@ -61,10 +61,6 @@
                             <li><a href="{% url 'index' %}">首页</a></li>
                             <!-- li end -->
 
-                            <!-- 地图 Menu -->
-                            <li><a href="{% url 'map' %}">地图</a></li>
-                            <!-- li end -->
-
                             <!-- 租房 Menu -->
                             <li><a href="{% url 'rent' %}">租房</a></li>
                             <!-- li end -->
@@ -146,7 +142,7 @@
                                 {% if hou.hurl != '' %}
                             <div class="agency--img">
                                 <a href="{% url 'house_detail' hou.hid %}">
-                        <img src="{{ MEDIA_URL }}subimage/{{ hou.sid }}/{{ hou.hid }}/househouyeimage.jpg" alt="agency" class="img-responsive">
+                        <img width=100% height=100% src="{{ MEDIA_URL }}subimage/{{ hou.sid }}/{{ hou.hid }}/househouyeimage.jpg" alt="agency" class="img-responsive">
                         </a>
                             </div>
                                 {% else %}
@@ -161,15 +157,11 @@
                                 <div class="clearfix mb-30">
                                     <div class="pull-left">
                                         <h5 class="agency--title"><a href="{% url 'house_detail' hou.hid %}" style=" font-size: 24px">{{ hou.htitle }}</a></h5>
-                                        <span class="agency--location"><i class="fa fa-map-marker"></i>{{ hou.hprice }}</span>
+                                        <span class="agency--location"><i class="fa fa-home"></i>{{ sname }}<br /><i class="fa fa-rmb"></i>{{ hou.hprice }}元/月<br /><i class="fa fa-building"></i>{{ hou.hfloor }}</span>
                                     </div>
                                     <div class="pull-right">
                                         <div class="agency--social-links">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+
                                         </div>
                                         <span class="Properties--number">{{ hou.htype }}</span>
                                     </div>
@@ -180,8 +172,8 @@
                                 <!-- .agency-details end -->
                                 <div class="agency--contact">
                                     <ul class="list-unstyled mb-0 clearfix">
-                                        <li><i class="fa fa-phone"></i>发布时间：{{ hou.hfloor }}</li>
-                                        <li><i class="fa fa-envelope-o"></i>联系方式：{{hou.hcontact_info}}</li>
+                                        <li><i class="fa fa-calendar"></i>发布时间：{{ hou.hpubdate }}</li>
+                                        <li><i class="fa fa-phone"></i>联系方式：{{hou.hcontact_info}}</li>
 
                                     </ul>
                                 </div>

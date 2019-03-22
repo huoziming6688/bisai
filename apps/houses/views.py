@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import View
-from .models import House, HouseDetail
+from .models import House, HouseDetail,HouseFacility
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from subdistricts.models import Subdistrict
 # Create your views here.
-
+import json
 
 class Houseinfo(View):
     def get(self, request,sid):
@@ -24,7 +24,7 @@ class Houseinfo(View):
             houseinfo['hfloor'] = house.housedetail.hfloor
             houseinfo['hpubdate'] = house.housedetail.hpubdate
             houseinfo['hcontact_info'] = house.housedetail.hcontact_info
-            houseinfo['description'] = house.housedetail.description
+            houseinfo['description'] = house.housedetail.description.replace('<br />','')
             houseinfolist.append(houseinfo)
         try:
             page = request.GET.get('page', 1)
@@ -43,6 +43,7 @@ class ShowHouseDetail(View):
     # 房源详情页
     def get(self, request, hid):
         housedetail = HouseDetail.objects.get(hid=hid)
+        housefacility=HouseFacility.objects.get(hid=hid)
         sid = housedetail.hid.subdistrictid
         hid = housedetail.hid
         hprice = housedetail.hprice
@@ -55,7 +56,10 @@ class ShowHouseDetail(View):
         des_final = des.replace('。', '')
         contact = housedetail.hcontact_info
         title = housedetail.hid.htitle
-        return render(request, 'property-single-slider.html', {
+        district=housedetail.hid.subdistrictid.districtid.districtname
+        jingdu=housedetail.hid.subdistrictid.subdistrictlocation.jingdu
+        weidu=housedetail.hid.subdistrictid.subdistrictlocation.weidu
+        return render(request, 'house-detail.html', {
             'sid': sid,
             'hid': hid,
             'hprice': hprice,
@@ -66,6 +70,10 @@ class ShowHouseDetail(View):
             'des_final': des_final,
             'contact': contact,
             'title': title,
+            'district':district,
+            'housefacility':housefacility,
+            'jingdu':json.dumps(jingdu),
+            'weidu':json.dumps(weidu),
         })
 
 

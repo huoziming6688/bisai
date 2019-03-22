@@ -60,10 +60,6 @@
                             <li><a href="{% url 'index' %}">首页</a></li>
                             <!-- li end -->
 
-                            <!-- 地图 Menu -->
-                            <li><a href="{% url 'map' %}">地图</a></li>
-                            <!-- li end -->
-
                             <!-- 租房 Menu -->
                             <li><a href="{% url 'rent' %}">租房</a></li>
                             <!-- li end -->
@@ -237,21 +233,21 @@
                 <!-- Slide #1 -->
                 <div class="slide--item bg-overlay bg-overlay-gradient">
                     <div class="bg-section">
-                        <img src="{{ MEDIA_URL }}subimage/{{ sid }}/{{ hid }}/househouyeimage.jpg" alt="background">
+                        <img src="{{ MEDIA_URL }}subimage/{{ sid }}/{{ hid }}/1.jpg" alt="background">
                     </div>
                 </div>
                 <!-- .slide-item end -->
                 <!-- Slide #2 -->
                 <div class="slide--item bg-overlay bg-overlay-gradient">
                     <div class="bg-section">
-                        <img src="/static/images/slider/slide-bg/1.jpg" alt="background">
+                        <img src="{{ MEDIA_URL }}subimage/{{ sid }}/{{ hid }}/2.jpg" alt="background">
                     </div>
                 </div>
                 <!-- .slide-item end -->
                 <!-- Slide #3 -->
                 <div class="slide--item bg-overlay bg-overlay-gradient">
                     <div class="bg-section">
-                        <img src="/static/images/slider/slide-bg/1.jpg" alt="background">
+                        <img src="{{ MEDIA_URL }}subimage/{{ sid }}/{{ hid }}/3.jpg" alt="background">
                     </div>
                 </div>
                 <!-- .slide-item end -->
@@ -328,71 +324,89 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="heading">
-                                        <h2 class="heading--title">房源标签</h2>
+                                        <h2 class="heading--title">房源设施</h2>
                                     </div>
                                 </div>
                                 <!-- feature-item #1 -->
+                                {% if housefacility.washer %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>洗衣机</p>
                                     </div>
                                 </div>
+                                {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #2 -->
+                            {% if housefacility.tv %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>电视</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #3 -->
+                            {% if housefacility.airconditioner %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>空调</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #4 -->
+                            {% if housefacility.freezer%}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>冰箱</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #5 -->
+                            {% if housefacility.heating %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>暖气</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #6 -->
+                            {% if housefacility.wifi %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>无线网</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #7 -->
+                            {% if housefacility.lift %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>电梯</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #8 -->
+                            {% if housefacility.gas %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>天然气</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                                 <!-- feature-item #9 -->
+                            {% if housefacility.water_heater %}
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>热水器</p>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <!-- feature-item end -->
                             </div>
                             <!-- .row end -->
@@ -403,20 +417,20 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="heading">
-                                        <h2 class="heading--title">房源坐标</h2>
+                                        <h2 class="heading--title">房源位置</h2>
                                     </div>
                                 </div>
                                 <!-- .col-md-12 end -->
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <ul class="list-unstyled mb-20">
                                         <li><span>城市:</span>上海市</li>
-                                        <li><span>区:</span>长宁区</li>
-                                        <li><span>地址:</span>延安西路 1882号</li>
+                                        <li><span>区:</span>{{ district }}</li>
+                                        <li id="location"></li>
                                     </ul>
                                 </div>
                                 <!-- .col-md-12 end -->
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div id="googleMap" style="width:100%;height:380px;"></div>
+                                    <div id="gaodemap" style="width:100%;height:380px;"></div>
                                 </div>
                                 <!-- .col-md-12 end -->
                             </div>
@@ -745,26 +759,61 @@ $(document).ready(function() {
     });
 });
 </script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.13&key=c09c4ec1d247fab72b361795b999bb85&plugin=AMap.Geolocation,AMap.ToolBar,AMap.Scale,AMap.Geocoder"></script>
+<script>
+var jingdu={{ jingdu|safe }}
+var weidu={{ weidu|safe }}
+    console.log(jingdu)
+function bd_decrypt() {
+    var X_PI = Math.PI * 3000.0 / 180.0;
+    var x = jingdu - 0.0065;
+    var y = weidu - 0.006;
+    var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * X_PI);
+    var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * X_PI);
+    jingdu = z * Math.cos(theta);
+    weidu = z * Math.sin(theta);}
+    bd_decrypt()
+var map = new AMap.Map('gaodemap', {
+    resizeEnable: true, //是否监控地图容器尺寸变化
+    zoom:11,
+    center:[jingdu,weidu]//初始化地图层级
 
-<script src="http://ditu.google.cn/maps/api/js?sensor=true&amp;key=AIzaSyCiRALrXFl5vovX0hAkccXXBFh7zP8AOW8"></script>
-    <script src="/static/js/plugins/jquery.gmap.min.js"></script>
-    <script>
-        $('#googleMap').gMap({
-            address: "121 King St,Melbourne, Australia",
-            zoom: 12,
-            maptype: 'ROADMAP',
-            markers: [{
-                address: "Melbourne, Australia",
-                maptype: 'ROADMAP',
-                icon: {
-                    image: "assets/images/gmap/marker1.png",
-                    iconsize: [52, 75],
-                    iconanchor: [52, 75]
-                }
-            }]
-        });
+    });
+    // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
+    map.addControl(new AMap.ToolBar({
+        liteStyle:true
+    }));
 
-    </script><script src="assets/js/map-custom.js"></script>
+
+    map.addControl(new AMap.Scale());
+   // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
+
+    // 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
+    map.addControl(new AMap.Geolocation());
+     var housemarker=new AMap.Marker({
+        map:map,
+        position:[jingdu,weidu]
+
+    });
+var address
+function location_to_address() {
+    var geocoder = new AMap.Geocoder({
+    // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+    city: '021'
+  })
+
+
+  geocoder.getAddress([jingdu,weidu], function(status, result) {
+    if (status === 'complete' && result.info === 'OK') {
+        // result为对应的地理位置详细信息
+        address=result.regeocode.formattedAddress
+        document.getElementById('location').innerHTML='<span>地址:</span>'+address
+    }
+  })
+}
+location_to_address()
+
+</script>
 </body>
 
 </html>

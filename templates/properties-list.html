@@ -42,7 +42,7 @@
         }
   h4 {
   font-family: inherit;
-  line-height: 1.8;
+  line-height: 0;
   font-weight: 300;
   color: inherit;
   font-size: 1.1rem;
@@ -93,11 +93,6 @@
                             <!-- 首页 Menu -->
                             <li><a href="{% url 'index' %}">首页</a></li>
                             <!-- li end -->
-
-                            <!-- 地图 Menu -->
-                            <li><a href="{% url 'map' %}">地图</a></li>
-                            <!-- li end -->
-
                             <!-- 租房 Menu -->
                             <li><a href="{% url 'rent' %}">租房</a></li>
                             <!-- li end -->
@@ -308,34 +303,13 @@
                                     </div>
                                     <!-- .select-box -->
                                     <div class="view--type pull-right">
-                                        <a id="switch-list" href="#" class=""><i class="fa fa-th-list"></i></a>
-                                        <a id="switch-grid" href="#" class="active"><i class="fa fa-th-large"></i></a>
+                                        <a id="switch-list" href="#" class="active"><i class="fa fa-th-list"></i></a>
+                                        <a id="switch-grid" href="#" class=""><i class="fa fa-th-large"></i></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="properties properties-grid" id="properties properties-grid">
+                            <div class="properties properties-list" id="properties properties-grid">
                                 <!-- .property-item #1 -->
-
-                                {% for house in subdetail %}
-                                <div class="col-xs-12 col-sm-6 col-md-6">
-                                    <div class="property-item">
-                                        <div class="property--img">
-                                            <a href="property-single-gallery.html">
-                                <img src="/static/images/properties/2.jpg" alt="property image" class="img-responsive">
-								</a>
-                                            <span class="property--status">For Sale</span>
-                                        </div>
-                                        <div class="property--content">
-                                            <div class="property--info">
-                                                <h5 class="property--title"><a href="property-single-gallery.html">{{ house.htype }}</a></h5>
-                                                <p class="property--location">{{ house.htitle }}</p>
-                                                <p class="property--price">{{ house.hprice }}</p>
-                                            </div>
-                                            <!-- .property-info end -->
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
 
                                 <!-- .property item end -->
                             </div>
@@ -368,7 +342,7 @@
     <script src="/static/js/jquery-2.2.4.min.js"></script>
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/functions.js"></script>
-    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.13&key=c09c4ec1d247fab72b361795b999bb85&plugin=AMap.ElasticMarker,AMap.ToolBar,AMap.Scale,AMap.AdvancedInfoWindow,AMap.Autocomplete,AMap.Transfer,AMap.ArrivalRange,AMap.Geocoder,AMap.CitySearch,AMap.Geolocation"></script> 
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.13&key=c09c4ec1d247fab72b361795b999bb85&plugin=AMap.ToolBar,AMap.Scale,AMap.Autocomplete,AMap.Transfer,AMap.ArrivalRange,AMap.Geocoder,AMap.CitySearch,AMap.Geolocation"></script>
     <script type="text/javascript">
         var AMapUIProtocol = 'https:';  //注意结尾包括冒号
         </script>
@@ -416,7 +390,7 @@
     var xiaoquinfolist=[]
     var price
     var select_bedrooms
-
+    var address_to_locationflag=1
 
 
 //模块----------------------------------------------
@@ -435,12 +409,12 @@ AMap.event.addListener(auto, "select", workLocationSelected);
 
 function workLocationSelected(e) {
     //更新工作地点，
+    address_to_locationflag=1
     workAddress = e.poi.name;
     workLocation=e.poi.location;
     map.remove(workMarker)
     loadworkmarker(workLocation,workAddress)
     document.getElementById('location').value = workAddress;
-
 }
 
 
@@ -453,8 +427,6 @@ function delpolyonArray(){
     if (amapTransfer) amapTransfer.clear();
     if(xqMarkerArray) map.remove(xqMarkerArray)
 }
-
-
 
 //加载小区图标
 function addxqmarker(xqinfo1) {
@@ -512,6 +484,7 @@ function markerdrag() {
      location_to_address(workLocation);
      workMarker.setTitle(workAddress)
      document.getElementById('location').value = workAddress;
+     address_to_locationflag=1
 }
 //加载工作地周围的公交到达圈
 function loadWorkRange(workLocation1,t1, color1, v1) {
@@ -558,6 +531,7 @@ function onClick(e) {
     location_to_address(e.lnglat);
    loadworkmarker(e.lnglat,workAddress);
    document.getElementById('location').value = workAddress;
+   address_to_locationflag=1
 }
 function mapcomplete(){
     workLocation=map.getCenter();
@@ -574,14 +548,16 @@ function address_to_location(address) {
     });
     geocoder.getLocation(address, function(status, result) {
         if (status === "complete" && result.info === 'OK') {
+            address_to_locationflag=1
             var geocode = result.geocodes[0];
             workLocation=[geocode.location.getLng(),geocode.location.getLat()]
         }
-        else{alert('请输入正确的地址')}
+        else{address_to_locationflag=0}
+        //else{alert('请输入正确的地址');
+        //}
 
     });
 }
-
 //    AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
 //      positionPicker = new PositionPicker({
 //        mode:'dragMarker',//设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
@@ -633,9 +609,9 @@ function addmarkerinpolygon() {
              str+=' <div class="col-xs-12 col-sm-6 col-md-6">'+
                 '<div class="property-item">'+
                 '<div class="property--img">'+
-                ' <a href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+select_bedrooms+'&price='+price+
+                ' <a target = \'_blank\' href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+select_bedrooms+'&price='+price+
             '">'+
-                '<img src="/static/images/' +
+                '<img width=100% height=100% src="/media/subimage/' +
             xiaoquinfolist[i].sid +
             '/shouyeimage.jpg" alt="property image" class="img-responsive">'+
                 '</a>'+
@@ -643,8 +619,8 @@ function addmarkerinpolygon() {
             '个</span>'+
                 '</div>'+
                 '<div class="property--content"><div class="property--info"><h5 class="property--title">'+
-                '<a href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+String(select_bedrooms)+'&price='+String(price)+
-                '">'+xiaoquinfolist[i].sname+xiaoquinfolist[i].built_time+'</a></h5>'+
+                '<a target = \'_blank\' href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+String(select_bedrooms)+'&price='+String(price)+
+                '" style="font-size:21px">'+xiaoquinfolist[i].sname+xiaoquinfolist[i].built_time+'</a></h5>'+
                 '<p class="property--location">'
              if(xiaoquinfolist[i].address!=null){
             if(xiaoquinfolist[i].address.length<26){
@@ -679,16 +655,45 @@ function addmarkerinpolygon() {
      if(count){
           matchxq.innerHTML='为您匹配到'+count+'个小区';
      }
-     else {mathcxq.innerHTML='暂无符合要求的小区，换个条件试试吧！'}
+     else {matchxq.innerHTML='暂无符合要求的小区，换个条件试试吧！'}
 
     div.innerHTML =str;
 }
 
- $(document).ready(function () {
+document.getElementById('location').onblur= location_onblur;
+    function location_onblur(){
+    workAddress=document.getElementById('location').value
+    console.log(workLocation)
+    address_to_location(workAddress)
+    console.log(workLocation)
+    setTimeout(abc,100)
 
+
+}
+
+function abc(){
+    map.remove(workMarker)
+    loadworkmarker(workLocation,workAddress)
+}
+ $(document).ready(function () {
+            {#$.ajaxSettings.async = false;#}
             $("#search").click(function () {
+                if(address_to_locationflag==0){
+                    alert('请检查地址输入是否正确')
+                }
+                if(document.getElementById('select-way').value==''){
+                    alert('请选择通勤方式')
+                }
+                //map.remove(workMarker)
+               // if(workAddress!=document.getElementById('location').value){
+                    //workAddress=document.getElementById('location').value ;
+                   // address_to_location(workAddress);
+               // }
+
                 //map.off('click',onClick)
                 alert('搜索可能需要较长时间')
+
+                //setTimeout(loadworkmarker(workLocation,workAddress),50)
                 price=$("#price").val();
                 select_bedrooms=$("#select-bedrooms").val();
 
@@ -716,7 +721,7 @@ function addmarkerinpolygon() {
                         xiaoquinfolist.push(xqdict)
     });
                     });
-        setTimeout(addmarkerinpolygon,100);
+        setTimeout(addmarkerinpolygon,120);
  });
 });
 </script>
