@@ -8,18 +8,17 @@ from django.db.models import Sum
 
 class xiaoquview(View):
     def get(self, request):
-
         xiaoquinfolist=[]
         for xiaoqu in SubdistrictDetail.objects.all()[:500]:
             xiaoquinfo = dict()
             xiaoquinfo['housecount']=xiaoqu.sid.house_set.count()
-            print(xiaoquinfo['housecount'])
+            # print(xiaoquinfo['housecount'])
             xiaoquinfo['sname']=xiaoqu.sid.sname
             xiaoquinfo['imageurl']=xiaoqu.sid.imageurl
             xiaoquinfo['sid']=xiaoqu.sid.sid
             xiaoquinfo['address']=xiaoqu.subaddress
             xiaoquinfo['built_time']=xiaoqu.built_time
-            print(xiaoqu.sid)
+            # print(xiaoqu.sid)
             if xiaoquinfo['housecount'] :
                  xiaoquinfo['avg_price'] = round(int(xiaoqu.sid.house_set.all().aggregate(totalprice=Sum('housedetail__hprice'))['totalprice'])/xiaoquinfo['housecount'])
             else:xiaoquinfo['avg_price']=0
@@ -33,7 +32,7 @@ class xiaoquview(View):
         p = Paginator(xiaoquinfolist, 5, request=request)
 
         xq = p.page(page)
-        return render(request, 'agency-list.html', {
+        return render(request, 'subdistrict-list.html', {
             'xiaoqu': xq,
         })
 

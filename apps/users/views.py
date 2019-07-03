@@ -11,22 +11,19 @@ from .forms import RegisterForm, LoginForm, UploadImageForm, EditForm, ImageUplo
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+import json
 # Create your views here.
 
 
 class RegisterView(View):
     def post(self, request):
-        register_form = RegisterForm()
-        return render(request, 'index.html', {'register_form':register_form})
-
-    def get(self, request):
-        register_form = RegisterForm(request.GET)
+        register_form = RegisterForm(request.POST)
         if register_form.is_valid():
-            user_name = request.GET.get('email', '')
+            user_name = request.POST.get('email', '')
             if UserProfile.objects.filter(email=user_name):
-                return render(request, 'existed.html', {})
-            pass_word = request.GET.get('password', '')
-            n_name = request.GET.get('name', '')
+                return render(request, 'index.html', {'register_form': register_form, 'msg': json.dumps('用户已存在')})
+            pass_word = request.POST.get('password', '')
+            n_name = request.POST.get('name', '')
             user_profile = UserProfile()
             user_profile.username = user_name
             user_profile.email = user_name
@@ -36,9 +33,14 @@ class RegisterView(View):
             user_profile.save()
 
             send_register_email(user_name, 'register')
-            return render(request, 'send_success.html')
+            return HttpResponseRedirect('/index')
         else:
             return render(request, 'index.html', {'register_form': register_form})
+
+
+    def get(self, request):
+        register_form = RegisterForm()
+        return render(request, 'index.html', {'register_form': register_form})
 
 
 # def login(request):
@@ -62,24 +64,25 @@ class ActiveUserView(View):
 
 
 class LoginView(View):
-    def post(self, request):
+    def get(self, request):
         return render(request, 'index.html', {})
 
-    def get(self, request):
-        login_form = LoginForm(request.GET)
+    def post(self, request):
+        next = request.GET.get('next', '')
+        login_form = LoginForm(request.POST)
         if login_form.is_valid():
             pass
-            user_name = request.GET.get('email', '')
-            pass_word = request.GET.get('password', '')
+            user_name = request.POST.get('email', '')
+            pass_word = request.POST.get('password', '')
             user = authenticate(username=user_name, password=pass_word)
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return render(request, 'user-profile.html')
+                    return HttpResponseRedirect(next)
                 else:
                     return render(request, 'index.html', {'msg': '用户未激活！'})
             else:
-                return render(request, 'index.html', {'msg': '用户名或密码错误！', 'login_form': login_form})
+                return render(request, 'index.html', {'msg': json.dumps('用户名或密码错误！'), 'login_form': login_form})
         else:
             return render(request, 'index.html', {'login_form': login_form})
 

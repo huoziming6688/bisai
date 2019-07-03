@@ -8,11 +8,11 @@ from houses.models import *
 from users.models import UserProfile
 from django.db.models import Q
 # Create your views here.
-import json
 from operations.models import *
 from django.db.models import Sum
 #改动了views prolist 和urls
-
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponseRedirect
 
 def showrent(request):
     return render(request, 'properties-list.html')
@@ -48,8 +48,15 @@ def getinfo(request):
             xiaoquinfo['address']=xiaoqu.subdistrictdetail.subaddress
             xiaoquinfo['jingdu']=xiaoqu.subdistrictlocation.jingdu
             xiaoquinfo['weidu']=xiaoqu.subdistrictlocation.weidu
-            xiaoqulist.append(xiaoquinfo)
+            if str(xiaoqu.imageurl)=='':
 
+                xiaoquinfo['hasimage']=0
+            else:
+                xiaoquinfo['hasimage']=1
+
+            # print(xiaoquinfo['hasimage'])
+            xiaoqulist.append(xiaoquinfo)
+            # print(xiaoqulist)
         return JsonResponse(xiaoqulist,safe=False)
 
 
@@ -62,11 +69,52 @@ class UserCenterView(View):
 class AddfavView(View):
     # @method_decorator(login_required)
     def post(self, request):
-        user_fav = UserFavorite()
         hid = request.POST.get('hid', '')
-        user_fav.user = request.user
-        # A = HouseDetail.objects.get(hid=hid)
-        # user_fav.hid = A
-        user_fav.hid = hid
-        user_fav.save()
-        return HttpResponse('{"status":"success", "msg":"已收藏"}', content_type='application/json')
+        if not request.user.is_authenticated:
+            return render(request, 'login.html', {})
+        exist_records = UserFavorite.objects.filter(user=request.user, hid=hid)
+        if exist_records:
+            exist_records.delete()
+            return HttpResponse('{"status":"fail", "msg":"取消收藏"}', content_type='application/json')
+        else:
+            user_fav = UserFavorite()
+            user_fav.user = request.user
+            user_fav.hid = hid
+            user_fav.save()
+            return HttpResponse('{"status":"success", "msg":"已收藏"}', content_type='application/json')
+
+
+class ShowFavView(View):
+    # @method_decorator(login_required)
+    def get(self, request):
+        favhouse = []
+        if not request.user.is_authenticated:
+            return render(request, 'favourite-properties.html')
+        for house in UserFavorite.objects.filter(user=request.user):
+            for schousedetail in HouseDetail.objects.filter(hid=house.hid):
+                schouse_1 = dict()
+                schouse_1['hprice'] = schousedetail.hprice
+                schouse_1['himagedir'] = schousedetail.hid.himagedir
+                schouse_1['harea'] = schousedetail.harea
+                schouse_1['sid'] = schousedetail.hid.subdistrictid
+                schouse_1['hid'] = schousedetail.hid
+                schouse_1['htitle'] = schousedetail.hid.htitle
+                schouse_1['htype'] = schousedetail.htype
+                schouse_1['contact'] = schousedetail.hcontact_info
+                favhouse.append(schouse_1)
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(favhouse, 5, request=request)
+        favhouse = p.page(page)
+        return render(request, 'favourite-properties.html', {
+                'favhouse': favhouse,
+        })
+
+
+class DeleteFavView(View):
+    def get(self, request, hid):
+        del_record = UserFavorite.objects.filter(hid=hid)
+        del_record.delete()
+        return HttpResponseRedirect('/shoucang')

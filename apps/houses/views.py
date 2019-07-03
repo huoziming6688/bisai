@@ -3,6 +3,7 @@ from django.views.generic import View
 from .models import House, HouseDetail,HouseFacility
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from subdistricts.models import Subdistrict
+from operations.views import *
 # Create your views here.
 import json
 
@@ -11,7 +12,30 @@ class Houseinfo(View):
         houseinfolist=[]
         subdistrict=Subdistrict.objects.get(sid=sid)
         sname=subdistrict.sname
-        for house in subdistrict.house_set.all():
+
+        try:
+            get = request.GET
+            select_bedrooms = get['select_bedrooms']
+            price = get['price']
+
+            price = price.replace('¥', '')
+            price = price.replace(' ', '')
+            price = price.split('-')
+            min_price = int(price[0])
+            max_price = int(price[1])
+            a = select_bedrooms[0]
+            if a == '一':
+                a = '1室'
+            elif a == '二':
+                a = '2室'
+            elif a == '三':
+                a = '3室'
+            elif a == '四':
+                a = '4室'
+            houseset=subdistrict.house_set.filter(housedetail__hprice__gte=min_price,housedetail__hprice__lte=max_price,housedetail__htype__contains=a).all()
+        except:
+            houseset=subdistrict.house_set.all()
+        for house in houseset:
             houseinfo = dict()
             houseinfo['hid'] = house.hid
             houseinfo['sid'] = house.subdistrictid
@@ -35,13 +59,19 @@ class Houseinfo(View):
 
         house = p.page(page)
         return render(request, 'house-list.html', {
-            'house': house,'sname':sname,
+            'house': house,
+            'sname':sname,
+            'sid':sid,
         })
 
 
 class ShowHouseDetail(View):
     # 房源详情页
     def get(self, request, hid):
+        has_fav = False
+        if request.user.is_authenticated:
+            if UserFavorite.objects.filter(user=request.user, hid=hid):
+                has_fav = True
         housedetail = HouseDetail.objects.get(hid=hid)
         housefacility=HouseFacility.objects.get(hid=hid)
         sid = housedetail.hid.subdistrictid
@@ -74,6 +104,7 @@ class ShowHouseDetail(View):
             'housefacility':housefacility,
             'jingdu':json.dumps(jingdu),
             'weidu':json.dumps(weidu),
+            'has_fav':has_fav,
         })
 
 

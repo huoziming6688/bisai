@@ -32,6 +32,7 @@ class HouseDetail(models.Model):
     hpubdate = models.CharField(max_length=255, blank=True, null=True)
     hcontact_info = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    hpredictprice = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = u'房子详细'
