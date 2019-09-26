@@ -46,10 +46,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}" style="margin-top: -10px">
 					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
 					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-				</a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -58,7 +58,6 @@
                             <!-- 首页 Menu -->
                             <li><a href="{% url 'index'%}">首页</a></li>
                             <!-- li end -->
-
                             <!-- 租房 Menu -->
                             <li><a href="{% url 'rent' %}">租房</a></li>
                             <!-- li end -->
@@ -73,7 +72,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -83,7 +81,7 @@
                         <!-- Module Signup  -->
                          {% if request.user.is_authenticated %}
 
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
                         <!-- Module Consultation  -->
                         {% else %}
                         <div class="module module-login pull-left">
@@ -105,7 +103,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0" method="get" action="{% url 'login' %}">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'shoucang' %}">
                                                                 <div class="or-text">
                                                                     <span></span>
                                                                 </div>
@@ -126,6 +124,7 @@
                                                                 </div>
                                                                 <input type="submit" class="btn btn--primary btn--block" value="登录">
                                                                 <a href="#" class="forget-password">忘记密码?</a>
+
                                                                 {% csrf_token %}
                                                             </form>
                                                             <!-- form  end -->
@@ -133,7 +132,7 @@
                                                         <!-- .signup-form end -->
                                                     </div>
                                                     <div class="tab-pane" id="signup">
-                                                       <form class="mb-0" method="get" action="{% url 'register' %}">
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
                                                             <div class="or-text">
                                                                 <span></span>
                                                             </div>
@@ -156,7 +155,7 @@
                                 <span class="check-indicator"></span>
                             </label>
                                                             </div>
-                                                            <input type="submit" class="btn btn--primary btn--block" value="注册">
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
                                                         {% csrf_token %}
                                                         </form>
                                                         <!-- form  end -->
@@ -196,7 +195,7 @@
                                     <h1>收藏的房源</h1>
                                 </div>
                                 <ol class="breadcrumb">
-                                    <li><a href="#">首页</a></li>
+                                    <li><a href="{% url 'index' %}">首页</a></li>
                                     <li class="active">收藏的房源</li>
                                 </ol>
                             </div>
@@ -220,135 +219,65 @@
                     <div class="col-xs-12 col-sm-5 col-md-4">
                         <div class="edit--profile-area">
                             <ul class="edit--profile-links list-unstyled mb-0">
-                                <li><a href="user-profile.html">个人信息</a></li>
-                                <li><a href="favourite-properties.html" class="active">我的收藏</a></li>
-                                <li><a href="add-property.html">添加收藏</a></li>
+                                <li><a href="{% url 'infor' %}">个人信息</a></li>
+                                <li><a href="{% url 'shoucang' %}" class="active">我的收藏</a></li>
                             </ul>
                         </div>
                     </div>
                     <!-- .col-md-4 -->
                     <div class="col-xs-12 col-sm-7 col-md-8">
                         <!-- .property-item #1 -->
+                        {% for fav in favhouse.object_list %}
                         <div class="property-item">
                             <div class="property--img">
-                                <a href="#">
-                        <img src="/static/images/properties/8.jpg" alt="property image" class="img-responsive">
-                        <span class="property--status">For Sale</span>
+                                <a href="{% url 'house_detail' fav.hid %}">
+                        <img src="{{ MEDIA_URL }}subimage/{{ fav.sid }}/{{ fav.hid }}/househouyeimage.jpg" width="100%" height="100%" alt="property image" class="img-responsive">
+{#                        <span class="property--status">For Sale</span>#}
                   </a>
                             </div>
                             <div class="property--content">
                                 <div class="property--info">
-                                    <h5 class="property--title"><a href="#">House in Kent Street</a></h5>
-                                    <p class="property--location">127 Kent Street, Sydney, NSW 2000</p>
-                                    <p class="property--price">¥130,000</p>
+                                    <h5 class="property--title" ><a href="{% url 'house_detail' fav.hid %}" style="line-height: normal; font-size: 16px">{{ fav.htitle }}</a></h5>
+                                    <p class="property--location" style="font-size: 14px;padding-top: 7px"><i class="fa fa-phone"></i>{{ fav.contact }}</p>
+                                    <p class="property--price">￥{{ fav.hprice }}/月</p>
                                 </div>
                                 <!-- .property-info end -->
                                 <div class="property--features">
                                     <ul class="list-unstyled mb-0">
-                                        <li><span class="feature">户型:</span><span class="feature-num">3</span></li>
-                                        <li><span class="feature">面积:</span><span class="feature-num">587 sq ft</span></li>
-                                        <li class="pull-right"><a href="#" class="edit--btn"><i class="fa fa-times"></i>移除</a></li>
+                                        <li><span class="feature">户型:</span><span class="feature-num">{{ fav.htype }}</span></li>
+                                        <li><span class="feature">面积:</span><span class="feature-num">{{ fav.harea }}m2</span></li>
+                                        <li><a href="{% url 'del_fav' fav.hid %}" class="edit--btn" style="line-height: normal">移除</a></li>
                                     </ul>
                                 </div>
                                 <!-- .property-features end -->
                             </div>
                         </div>
+                        {% endfor %}
                         <!-- .property item end -->
-
-                        <!-- .property-item #2 -->
-                        <div class="property-item">
-                            <div class="property--img">
-                                <a href="#">
-                        <img src="/static/images/properties/9.jpg" alt="property image" class="img-responsive">
-                        <span class="property--status">For Rent</span>
-                  </a>
-                            </div>
-                            <div class="property--content">
-                                <div class="property--info">
-                                    <h5 class="property--title">Villa in Oglesby Ave.</h5>
-                                    <p class="property--location">1035 Oglesby Ave, Chicago, IL 60617</p>
-                                    <p class="property--price">¥1,800<span class="time">month</span></p>
-                                </div>
-                                <!-- .property-info end -->
-                                <div class="property--features">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><span class="feature">户型:</span><span class="feature-num">4</span></li>
-                                        <li><span class="feature">面积:</span><span class="feature-num">800 sq ft</span></li>
-                                        <li class="pull-right"><a href="#" class="edit--btn"><i class="fa fa-times"></i>移除</a></li>
-                                    </ul>
-                                </div>
-                                <!-- .property-features end -->
-                            </div>
-                        </div>
-                        <!-- .property item end -->
-
-                        <!-- .property-item #3 -->
-                        <div class="property-item">
-                            <div class="property--img">
-                                <a href="#">
-                        <img src="/static/images/properties/10.jpg" alt="property image" class="img-responsive">
-                        <span class="property--status">For Sale</span>
-                  </a>
-                            </div>
-                            <div class="property--content">
-                                <div class="property--info">
-                                    <h5 class="property--title"><a href="#">Apartment in Long St.</a></h5>
-                                    <p class="property--location">34 Long St, Jersey City, NJ 07305</p>
-                                    <p class="property--price">¥70,000</p>
-                                </div>
-                                <!-- .property-info end -->
-                                <div class="property--features">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><span class="feature">户型:</span><span class="feature-num">1</span></li>
-                                        <li><span class="feature">面积:</span><span class="feature-num">500 sq ft</span></li>
-                                        <li class="pull-right"><a href="#" class="edit--btn"><i class="fa fa-times"></i>移除</a></li>
-                                    </ul>
-                                </div>
-                                <!-- .property-features end -->
-                            </div>
-                        </div>
-                        <!-- .property item end -->
-
-                        <!-- .property-item #4 -->
-                        <div class="property-item">
-                            <div class="property--img">
-                                <a href="#">
-                        <img src="/static/images/properties/11.jpg" alt="property image" class="img-responsive">
-                        <span class="property--status">For Rent</span>
-                  </a>
-                            </div>
-                            <div class="property--content">
-                                <div class="property--info">
-                                    <h5 class="property--title">Villa in Chicago IL</h5>
-                                    <p class="property--location">1445 N State Pkwy, Chicago, IL 60610</p>
-                                    <p class="property--price">¥235,000</p>
-                                </div>
-                                <!-- .property-info end -->
-                                <div class="property--features">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><span class="feature">户型:</span><span class="feature-num">3</span></li>
-                                        <li><span class="feature">面积:</span><span class="feature-num">1120 sq ft</span></li>
-                                        <li class="pull-right"><a href="#" class="edit--btn"><i class="fa fa-times"></i>移除</a></li>
-                                    </ul>
-                                </div>
-                                <!-- .property-features end -->
-                            </div>
-                        </div>
-                        <!-- .property item end -->
-
-                        <div class="mt-50 text--center">
-                            <ul class="pagination">
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">...</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                            <span aria-hidden="true"><i class="fa fa-angle-right"></i></span>
-                        </a>
-                                </li>
-                            </ul>
-                        </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 clearfix text--center">
+                        <ul class="pagination">
+                            {% if favhouse.has_previous %}
+                                <li class="long"><a href="?{{ favhouse.previous_page_number.querystring }}">上页</a></li>
+                            {% endif %}
+                            {% for page in favhouse.pages %}
+                                {% if page %}
+                                    {% ifequal page favhouse.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% endifequal %}
+                                    {% else %}
+                                        <li class="none"><a href="">...</a> </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if favhouse.has_next %}
+                                <li class="long"><a href="?{{ favhouse.next_page_number.querystring }}">下页</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- .col-md-12 end -->
+                </div>
                         <!-- .pagination end -->
                     </div>
                     <!-- .col-md-8 end -->
@@ -403,7 +332,7 @@
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="https://sh.lianjia.com">链家</a></li>
                                     <li><a href="https://shanghai.anjuke.com">安居客</a></li>
-                                    <li><a href="https://yuzhu.me">寓住</a></li>
+                                    <li><a href="https://ke.com">贝壳网</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -457,6 +386,7 @@
     <script src="/static/js/jquery-2.2.4.min.js"></script>
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/functions.js"></script>
+
 <script>
     var islogin=0
         {%if request.user.is_authenticated %}
@@ -466,6 +396,12 @@
             $('#signupModule').modal('show')
         }
     </script>
-</body>
 
+</body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
+
+    }
+</script>
 </html>

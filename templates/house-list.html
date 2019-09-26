@@ -48,10 +48,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}f">
 					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
 					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-				</a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -75,7 +75,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -84,10 +83,93 @@
                         </ul>
                         <!-- Module Signup  -->
                         {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
                             {% else %}
                         <div class="module module-login pull-left">
-                            <a href="{% url 'login' %}" class="btn-popup" data-toggle="modal" >登录</a>
+                           <a class="btn-popup" data-toggle="modal" data-target="#signupModule">登录</a>
+                            <div class="modal register-login-modal fade" tabindex="-1" role="dialog" id="signupModule">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="row">
+
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a href="#login" data-toggle="tab">登录</a>
+                                                    </li>
+                                                    <li><a href="#signup" data-toggle="tab">注册</a>
+                                                    </li>
+                                                </ul>
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade in active" id="login">
+                                                        <div class="signup-form-container text-center">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'house-list' sid %}">
+                                                                <div class="or-text">
+                                                                    <span></span>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="email" class="form-control" name="email" id="login-email" placeholder="Email 地址">
+                                                                </div>
+                                                                <!-- .form-group end -->
+                                                                <div class="form-group">
+                                                                    <input type="password" class="form-control" name="password" id="login-password" placeholder="请输入密码">
+                                                                </div>
+                                                                <!-- .form-group end -->
+                                                                <div class="input-checkbox">
+                                                                    <label class="label-checkbox">
+                                <span>记住密码</span>
+                                <input type="checkbox">
+                                <span class="check-indicator"></span>
+                            </label>
+                                                                </div>
+                                                                <input type="submit" class="btn btn--primary btn--block" value="登录">
+                                                                <a href="#" class="forget-password">忘记密码?</a>
+                                                                {% csrf_token %}
+                                                            </form>
+                                                            <!-- form  end -->
+                                                        </div>
+                                                        <!-- .signup-form end -->
+                                                    </div>
+                                                    <div class="tab-pane" id="signup">
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
+                                                            <div class="or-text">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="name" id="full-name" placeholder="姓名">
+                                                            </div>
+                                                            <!-- .form-group end -->
+                                                           <div class="form-group">
+                                                                <input type="email" class="form-control" name="email" id="register-email" placeholder="Email 地址">
+                                                            </div>
+                                                            <!-- .form-group end -->
+                                                           <div class="form-group">
+                                                                <input type="password" class="form-control" name="password" id="register-password" placeholder="密码">
+                                                            </div>
+                                                            <!-- .form-group end -->
+                                                           <div class="input-checkbox">
+                                                                <label class="label-checkbox">
+                                <span>我已经阅读并同意 <a href="#">用户协议</a></span>
+                                <input type="checkbox">
+                                <span class="check-indicator"></span>
+                            </label>
+                                                            </div>
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
+                                                        {% csrf_token %}
+                                                        </form>
+                                                        <!-- form  end -->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+                            </div>
                         </div>
                         {% endif %}
                     </div>
@@ -113,7 +195,7 @@
                                     <h1>{{ sname }}房源列表</h1>
                                 </div>
                                 <ol class="breadcrumb">
-                                    <li><a href="#">首页</a></li>
+                                    <li><a href="index.html">首页</a></li>
                                     <li class="active">{{ sname }}房源列表</li>
                                 </ol>
                             </div>
@@ -141,13 +223,13 @@
                             <div class="agency-item">
                                 {% if hou.hurl != '' %}
                             <div class="agency--img">
-                                <a href="{% url 'house_detail' hou.hid %}">
+                                <a target = '_blank' href="{% url 'house_detail' hou.hid %}">
                         <img width=100% height=100% src="{{ MEDIA_URL }}subimage/{{ hou.sid }}/{{ hou.hid }}/househouyeimage.jpg" alt="agency" class="img-responsive">
                         </a>
                             </div>
                                 {% else %}
                              <div class="agency--img">
-                                <a href="{% url 'house_detail' hou.hid %}">
+                                <a target = '_blank' href="{% url 'house_detail' hou.hid %}">
                         <img src="/static/images/404/none.jpg" alt="agency" class="img-responsive">
                         </a>
                             </div>
@@ -156,8 +238,8 @@
                             <div class="agency--content">
                                 <div class="clearfix mb-30">
                                     <div class="pull-left">
-                                        <h5 class="agency--title"><a href="{% url 'house_detail' hou.hid %}" style=" font-size: 24px">{{ hou.htitle }}</a></h5>
-                                        <span class="agency--location"><i class="fa fa-home"></i>{{ sname }}<br /><i class="fa fa-rmb"></i>{{ hou.hprice }}元/月<br /><i class="fa fa-building"></i>{{ hou.hfloor }}</span>
+                                        <h5 class="agency--title"><a target = '_blank' href="{% url 'house_detail' hou.hid %}" style=" font-size: 24px">{{ hou.htitle }}</a></h5>
+                                        <span class="agency--location"><i class="fa fa-home"></i>{{ sname }}<br /><i class="fa fa-rmb"></i>{{ hou.hprice }}元/月(标价)&nbsp;{{ hou.hpredictprice }}元/月(预测价)<br /><i class="fa fa-building"></i>{{ hou.hfloor }}</span>
                                     </div>
                                     <div class="pull-right">
                                         <div class="agency--social-links">
@@ -312,5 +394,10 @@
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/functions.js"></script>
 </body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
 
+    }
+</script>
 </html>

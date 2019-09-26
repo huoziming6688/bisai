@@ -235,7 +235,7 @@
             range: "min",   /* min为单滑块*/
             min: 0,
             max: 60,
-            value:30,
+            value:40,
             slide: function(event, ui) {
                 $(this).closest('.filter').find($sliderAmount).val(ui.value +"分钟");
             }

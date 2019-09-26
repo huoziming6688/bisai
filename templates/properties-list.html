@@ -81,10 +81,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}">
 					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
 					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-				</a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -107,7 +107,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -117,7 +116,7 @@
                         </ul>
                         <!-- Module Signup  -->
                             {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
                             {% else %}
                         <div class="module module-login pull-left">
                             <a class="btn-popup" data-toggle="modal" data-target="#signupModule">登录</a>
@@ -138,7 +137,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0" method="get" action="{% url 'login' %}">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'rent' %}">
                                                                 <div class="or-text">
                                                                     <span></span>
                                                                 </div>
@@ -166,7 +165,7 @@
                                                         <!-- .signup-form end -->
                                                     </div>
                                                     <div class="tab-pane" id="signup">
-                                                       <form class="mb-0" method="get" action="{% url 'register' %}">
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
                                                             <div class="or-text">
                                                                 <span></span>
                                                             </div>
@@ -189,7 +188,7 @@
                                 <span class="check-indicator"></span>
                             </label>
                                                             </div>
-                                                            <input type="submit" class="btn btn--primary btn--block" value="注册">
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
                                                         {% csrf_token %}
                                                         </form>
                                                         <!-- form  end -->
@@ -269,7 +268,7 @@
                                     <div class="filter mb-30">
                                         <p>
                                             <label for="time">通勤时间:</label>
-                                            <input id="time" value='30分钟' ,type="text" name="time" class="amount" readonly>
+                                            <input id="time" value='40分钟' ,type="text" name="time" class="amount" readonly>
                                         </p >
                                         <div class="slider-range"></div>
                                     </div>
@@ -343,13 +342,13 @@
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/functions.js"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.13&key=c09c4ec1d247fab72b361795b999bb85&plugin=AMap.ToolBar,AMap.Scale,AMap.Autocomplete,AMap.Transfer,AMap.ArrivalRange,AMap.Geocoder,AMap.CitySearch,AMap.Geolocation"></script>
-    <script type="text/javascript">
-        var AMapUIProtocol = 'https:';  //注意结尾包括冒号
-        </script>
-        <!-- https 方式引入入口文件 -->
-        <script src="https://webapi.amap.com/ui/1.0/main.js"></script>
-
-  <script>
+{#    <script type="text/javascript">#}
+{#        var AMapUIProtocol = 'https:';  //注意结尾包括冒号#}
+{#        </script>#}
+{#        <!-- https 方式引入入口文件 -->#}
+{#        <script src="https://webapi.amap.com/ui/1.0/main.js"></script>#}
+{##}
+<script>
 
     var map = new AMap.Map('gaodeMap', {
     resizeEnable: true, //是否监控地图容器尺寸变化
@@ -391,6 +390,8 @@
     var price
     var select_bedrooms
     var address_to_locationflag=1
+    var onblurflag=0 //是否打开地址的反向解析，建议在网络不好的情况下关闭
+    //服务器版本是开着的
 
 
 //模块----------------------------------------------
@@ -409,7 +410,7 @@ AMap.event.addListener(auto, "select", workLocationSelected);
 
 function workLocationSelected(e) {
     //更新工作地点，
-    address_to_locationflag=1
+    address_to_locationflag=1;
     workAddress = e.poi.name;
     workLocation=e.poi.location;
     map.remove(workMarker)
@@ -606,14 +607,18 @@ function addmarkerinpolygon() {
          if (inRing){
              count+=1
              addxqmarker(xiaoquinfolist[i])
+             if(xiaoquinfolist[i].hasimage){
+                 image='<img width=100% height=100% src="/media/subimage/' +
+            xiaoquinfolist[i].sid +
+            '/shouyeimage.jpg" alt="property image" class="img-responsive">'
+             }
+         else{image='<img width=100% height=100% src="/static/images/404/none.jpg" alt="property image" class="img-responsive">'}
              str+=' <div class="col-xs-12 col-sm-6 col-md-6">'+
                 '<div class="property-item">'+
                 '<div class="property--img">'+
                 ' <a target = \'_blank\' href="/xiaoqu/'+xiaoquinfolist[i].sid+'/?select_bedrooms='+select_bedrooms+'&price='+price+
-            '">'+
-                '<img width=100% height=100% src="/media/subimage/' +
-            xiaoquinfolist[i].sid +
-            '/shouyeimage.jpg" alt="property image" class="img-responsive">'+
+            '">'
+                +image+
                 '</a>'+
                 ' <span class="property--status">满足条件的房源' +xiaoquinfolist[i].housecount+
             '个</span>'+
@@ -625,28 +630,28 @@ function addmarkerinpolygon() {
              if(xiaoquinfolist[i].address!=null){
             if(xiaoquinfolist[i].address.length<26){
                 str+=xiaoquinfolist[i].address+'<br>&nbsp;'+'<br>&nbsp;'+' </p>'+
-                '<p class="property--price">'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
+                '<p class="property--price">'+'小区租房均价：'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
                 '</div></div></div></div>'
             }
             else if(xiaoquinfolist[i].address.length>=26&xiaoquinfolist[i].address.length<52){
                 str+=xiaoquinfolist[i].address+'<br>&nbsp;'+'</p>'+
-                ' <p class="property--price">'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
+                ' <p class="property--price">'+'小区租房均价：'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
                 '</div></div></div></div>'
 
             }
             else if(xiaoquinfolist[i].address.length>=52&xiaoquinfolist[i].address.length<78){ str+=xiaoquinfolist[i].address+'</p>'+
-                ' <p class="property--price">'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
+                ' <p class="property--price">'+'小区租房均价：'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
                 '</div></div></div></div>'
 
              }
             else if(xiaoquinfolist[i].address.length>=78){ str+=xiaoquinfolist[i].address.slice(0,78)+'</p>'+
-                ' <p class="property--price">'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
+                ' <p class="property--price">'+'小区租房均价：'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
                 '</div></div></div></div>'
 
             }
             }
              else{str+='&nbsp;<br>&nbsp;'+'<br>&nbsp;'+'</p>'+
-                ' <p class="property--price">'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
+                ' <p class="property--price">'+'小区租房均价：'+xiaoquinfolist[i].avgprice+' 元/月</p>'+
                 '</div></div></div></div>'}
          }
      }
@@ -659,18 +664,20 @@ function addmarkerinpolygon() {
 
     div.innerHTML =str;
 }
+if(onblurflag==1){
+
 
 document.getElementById('location').onblur= location_onblur;
     function location_onblur(){
-    workAddress=document.getElementById('location').value
-    console.log(workLocation)
-    address_to_location(workAddress)
-    console.log(workLocation)
-    setTimeout(abc,100)
+            workAddress = document.getElementById('location').value
+            //console.log(workLocation)
+            address_to_location(workAddress)
+            {#console.log(workLocation)#}
+            setTimeout(abc, 200)
 
 
 }
-
+}
 function abc(){
     map.remove(workMarker)
     loadworkmarker(workLocation,workAddress)
@@ -678,12 +685,20 @@ function abc(){
  $(document).ready(function () {
             {#$.ajaxSettings.async = false;#}
             $("#search").click(function () {
+
                 if(address_to_locationflag==0){
                     alert('请检查地址输入是否正确')
+                    return true
                 }
                 if(document.getElementById('select-way').value==''){
                     alert('请选择通勤方式')
+                    return true
                 }
+                 if(document.getElementById('select-bedrooms').value==''){
+                    alert('请选择居室数')
+                     return true
+                }
+
                 //map.remove(workMarker)
                // if(workAddress!=document.getElementById('location').value){
                     //workAddress=document.getElementById('location').value ;
@@ -691,7 +706,7 @@ function abc(){
                // }
 
                 //map.off('click',onClick)
-                alert('搜索可能需要较长时间')
+                //alert('搜索可能需要较长时间')
 
                 //setTimeout(loadworkmarker(workLocation,workAddress),50)
                 price=$("#price").val();
@@ -719,12 +734,22 @@ function abc(){
                         //console.log(xqdict.lnglat);
                         //addxqmarker(xqdict)
                         xiaoquinfolist.push(xqdict)
+
     });
+
                     });
-        setTimeout(addmarkerinpolygon,120);
+        setTimeout(addmarkerinpolygon,200);
+
+
  });
 });
 </script>
 
 </body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
+
+    }
+</script>
 </html>

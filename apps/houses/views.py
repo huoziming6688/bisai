@@ -42,6 +42,7 @@ class Houseinfo(View):
             houseinfo['htitle']=house.htitle
             houseinfo['hurl'] = house.hurl
             houseinfo['hprice']=house.housedetail.hprice
+            houseinfo['hpredictprice']=house.housedetail.hpredictprice
             houseinfo['hdirection']=house.housedetail.hdirection
             houseinfo['htype']=house.housedetail.htype
             houseinfo['harea']=house.housedetail.harea
@@ -77,6 +78,7 @@ class ShowHouseDetail(View):
         sid = housedetail.hid.subdistrictid
         hid = housedetail.hid
         hprice = housedetail.hprice
+        hpredictprice = housedetail.hpredictprice
         hdirection = housedetail.hdirection
         harea = housedetail.harea
         room_nums = housedetail.htype[0]
@@ -105,6 +107,7 @@ class ShowHouseDetail(View):
             'jingdu':json.dumps(jingdu),
             'weidu':json.dumps(weidu),
             'has_fav':has_fav,
+            'hpredictprice':hpredictprice
         })
 
 

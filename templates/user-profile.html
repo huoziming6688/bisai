@@ -49,10 +49,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}">
 					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
 					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-				</a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -76,7 +76,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -85,7 +84,7 @@
                         </ul>
                         <!-- Module Signup  -->
                         {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
                             {% else %}
                         <div class="module module-login pull-left">
                             <a class="btn-popup" data-toggle="modal" data-target="#signupModule">登录</a>
@@ -106,7 +105,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0" method="get" action="{% url 'login' %}">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'infor' %}">
                                                                 <div class="or-text">
                                                                     <span></span>
                                                                 </div>
@@ -134,7 +133,7 @@
                                                         <!-- .signup-form end -->
                                                     </div>
                                                     <div class="tab-pane" id="signup">
-                                                       <form class="mb-0" method="get" action="{% url 'register' %}">
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
                                                             <div class="or-text">
                                                                 <span></span>
                                                             </div>
@@ -157,7 +156,7 @@
                                 <span class="check-indicator"></span>
                             </label>
                                                             </div>
-                                                            <input type="submit" class="btn btn--primary btn--block" value="注册">
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
                                                         {% csrf_token %}
                                                         </form>
                                                         <!-- form  end -->
@@ -197,8 +196,8 @@
                                     <h1>用户首页</h1>
                                 </div>
                                 <ol class="breadcrumb">
-                                    <li><a href="#">Home</a></li>
-                                    <li class="active">user Profile</li>
+                                    <li><a href="{% url 'index' %}">首页</a></li>
+                                    <li class="active">我的信息</li>
                                 </ol>
                             </div>
                             <div class="clearfix"></div>
@@ -221,11 +220,8 @@
                     <div class="col-xs-12 col-sm-12 col-md-4">
                         <div class="edit--profile-area">
                             <ul class="edit--profile-links list-unstyled mb-0">
-                                <li><a href="user-profile.html" class="active">Edit Profile</a></li>
-                                <li><a href="social-profile.html">Social Profiles</a></li>
-                                <li><a href="my-properties.html">My Properties</a></li>
-                                <li><a href="favourite-properties.html">Favorite Properties</a></li>
-                                <li><a href="add-property.html">Add Property</a></li>
+                                <li><a href="{% url 'infor' %}">个人信息</a></li>
+                                <li><a href="{% url 'shoucang' %}" class="active">我的收藏</a></li>
                             </ul>
                         </div>
                     </div>
@@ -234,16 +230,16 @@
                         <form class="mb-0" method="post" action="{% url 'edit' %}"enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-box">
-                                <h4 class="form--title">Profile Picture</h4>
+                                <h4 class="form--title">个人头像</h4>
                                 <div class="upload--img-area">
                                     <div class="preview--img">
                                         <img src="{{ MEDIA_URL }}{{ user.image }}" id="output--img" class="output--img">
                                     </div>
-                                    <a class="btn btn--primary btn-file ml-30">Upload
+                                    <a class="btn btn--primary btn-file ml-30">上传
                                 <input type="file" name="image" hidden>
                                 <input type="file" accept="image/*" onchange="loadFile(event)" name="image">
                             </a>
-                                    <a href="#" class="btn delete--img"><i class="fa fa-times"></i>Delete</a>
+                                    <a href="#" class="btn delete--img"><i class="fa fa-times"></i>删除</a>
                                     <script>
                                         var loadFile = function(event) {
                                             var reader = new FileReader();
@@ -258,29 +254,29 @@
                                 </div>
                             </div>
                             <div class="form-box">
-                                <h4 class="form--title">Personal Details</h4>
+                                <h4 class="form--title">详细信息</h4>
                                 <div class="form-group">
-                                    <label for="first_name">First Name</label>
+                                    <label for="first_name">姓氏</label>
                                     <input type="text" class="form-control" name="first_name" id="first-name"value="{{ user.first_name }}">
                                 </div>
                                 <!-- .form-group end -->
                                 <div class="form-group">
-                                    <label for="last_name">Last Name</label>
+                                    <label for="last_name">名字</label>
                                     <input type="text" class="form-control" name="last_name" id="last-name"value="{{ user.last_name }}">
                                 </div>
                                 <!-- .form-group end -->
                                 <div class="form-group">
-                                    <label for="email-address">Email Address</label>
+                                    <label for="email-address">Email 地址</label>
                                     <input type="email" value="{{ request.user.email }}" class="form-control" name="email" id="email-address">
                                 </div>
                                 <!-- .form-group end -->
                                 <div class="form-group">
-                                    <label for="phone-number">Phone</label>
+                                    <label for="phone-number">电话</label>
                                     <input type="text" class="form-control" name="mobile" id="phone-number" value="{{ user.mobile}}">
                                 </div>
                                 <!-- .form-group end -->
                                 <div class="form-group">
-                                    <label for="about-me">About Me</label>
+                                    <label for="about-me">个人简介</label>
                                     <textarea class="form-control" name="about" id="about-me" rows="2">{{ user.about }}</textarea>
                                 </div>
                                 <!-- .form-group end -->
@@ -406,5 +402,10 @@
         }
     </script>
 </body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
 
+    }
+</script>
 </html>

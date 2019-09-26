@@ -47,10 +47,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}" style="list-style-type:none;line-height: 95px;">
 					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
 					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-				</a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -74,7 +74,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -84,7 +83,7 @@
                         <!-- Module Signup  -->
                         {% if request.user.is_authenticated %}
 
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
 
 
                             <!--<a class="btn-popup" data-toggle="modal" data-target="#signupModule">退出登录</a>-->
@@ -109,7 +108,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0" method="get" action="{% url 'login' %}">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'index' %}">
                                                                 <div class="or-text">
                                                                     <span></span>
                                                                 </div>
@@ -137,7 +136,7 @@
                                                         <!-- .signup-form end -->
                                                     </div>
                                                     <div class="tab-pane" id="signup">
-                                                       <form class="mb-0" method="get" action="{% url 'register' %}">
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
                                                             <div class="or-text">
                                                                 <span></span>
                                                             </div>
@@ -160,7 +159,7 @@
                                 <span class="check-indicator"></span>
                             </label>
                                                             </div>
-                                                            <input type="submit" class="btn btn--primary btn--block" value="注册">
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
                                                         {% csrf_token %}
                                                         </form>
                                                         <!-- form  end -->
@@ -280,25 +279,26 @@
             </div>
             <div class="carousel slider-navs" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="true" data-dots="false" data-space="0" data-loop="true" data-speed="800">
                 <!-- Slide #1 -->
-                <div class="slide--item bg-overlay bg-overlay-dark3">
+                <div class="slide--item bg-overlay bg-overlay-dark3" style="position: relative">
+                    <div style="position: absolute;text-align: center;padding-left: 0px;padding-top: 150px;width:100%;" >
+                        <h1 style="color: #e6e6e6">找房难？租房难？</h1>
+                    <h2 style="color: #e6e6e6">不用担心！多平台爬虫+高德地图API助你找到心仪房源</h2>
+                    </div>
                     <div class="bg-section">
                         <img src="/static/images/slider/slide-bg/3.jpg" alt="background">
                     </div>
                 </div>
                 <!-- .slide-item end -->
                 <!-- Slide #2 -->
-                <div class="slide--item bg-overlay bg-overlay-dark3">
+                <div class="slide--item bg-overlay bg-overlay-dark3" style="position: relative">
+                    <div style="position: absolute;text-align: center;padding-left: 0px;padding-top: 150px;width:100%;"  >
+                        <h1 style="color: #e6e6e6">找房难？租房难？</h1>
+                    <h2 style="color: #e6e6e6">不用担心！多平台爬虫+高德地图API助你找到心仪房源</h2>
+                    </div>
                     <div class="bg-section">
                         <img src="/static/images/slider/slide-bg/1.jpg" alt="background">
                     </div>
                 </div>
-                <!-- .slide-item end -->
-                <!-- Slide #3 -->
-                <div class="slide--item bg-overlay bg-overlay-dark3">
-                    <div class="bg-section">
-                        <img src="/static/images/slider/slide-bg/3.jpg" alt="background">
-                    </div>
-                </di
                 <!-- .slide-item end -->
             </div>
         </section>
@@ -489,13 +489,12 @@
 {#</section>#}
 <!-- #properties-carousel  end
 ============================================= -->
-        <section id="feature" class="feature feature-1 text-center bg-white pb-90">
+        <section id="feature" class="feature feature-1 text-center bg-white pb-90" >
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="heading heading-2 text-center mb-70">
-                            <h1>找房难？租房难？</h1>
-                            <h2>不用担心！多平台爬虫+高德地图API助你找到合适房源</h2>
+                            <a href="{% url 'rent' %}" class="btn btn--primary" style="position: relative;bottom: 60px">立即开始</a>
                             <h2 class="heading--title">选房步骤</h2>
                             <p class="heading--desc">仅需简单几步 轻松选出合适房源</p>
                         </div>
@@ -672,5 +671,16 @@ T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventLi
 });
 tpwidget("show");</script>
 </body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
 
+    }
+
+</script>
+<script>var msg={{ msg|safe }}
+    if(msg=='用户已存在'){
+       alert('用户已存在')
+    }
+    else if (msg=='用户名或密码错误！') {alert('用户名或密码错误')}</script>
 </html>

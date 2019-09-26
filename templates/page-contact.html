@@ -46,10 +46,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}">
                <img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
                <img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-            </a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,7 +73,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -82,7 +81,7 @@
                         </ul>
                         <!-- Module Signup  -->
                         {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
                             {% else %}
                         <div class="module module-login pull-left">
                             <a class="btn-popup" data-toggle="modal" data-target="#signupModule">登录</a>
@@ -94,68 +93,68 @@
 
                                                 <!-- Nav tabs -->
                                                 <ul class="nav nav-tabs">
-                                                    <li class="active"><a href="#login" data-toggle="tab">login</a>
+                                                    <li class="active"><a href="#login" data-toggle="tab">登录</a>
                                                     </li>
-                                                    <li><a href="#signup" data-toggle="tab">signup</a>
+                                                    <li><a href="#signup" data-toggle="tab">注册</a>
                                                     </li>
                                                 </ul>
                                                 <!-- Tab panes -->
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0">
-                                                                <a href="#" class="btn btn--facebook btn--block"><i class="fa fa-facebook-square"></i>Login with Facebook</a>
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'help' %}">
                                                                 <div class="or-text">
-                                                                    <span>or</span>
+                                                                    <span></span>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <input type="email" class="form-control" name="login-email" id="login-email" placeholder="Email Address">
+                                                                    <input type="email" class="form-control" name="email" id="login-email" placeholder="Email 地址">
                                                                 </div>
                                                                 <!-- .form-group end -->
                                                                 <div class="form-group">
-                                                                    <input type="password" class="form-control" name="login-password" id="login-password" placeholder="Password">
+                                                                    <input type="password" class="form-control" name="password" id="login-password" placeholder="请输入密码">
                                                                 </div>
                                                                 <!-- .form-group end -->
                                                                 <div class="input-checkbox">
                                                                     <label class="label-checkbox">
-                                <span>Remember Me</span>
+                                <span>记住密码</span>
                                 <input type="checkbox">
                                 <span class="check-indicator"></span>
                             </label>
                                                                 </div>
-                                                                <input type="submit" class="btn btn--primary btn--block" value="Sign In">
-                                                                <a href="#" class="forget-password">Forget your password?</a>
+                                                                <input type="submit" class="btn btn--primary btn--block" value="登录">
+                                                                <a href="#" class="forget-password">忘记密码?</a>
+                                                                {% csrf_token %}
                                                             </form>
                                                             <!-- form  end -->
                                                         </div>
                                                         <!-- .signup-form end -->
                                                     </div>
                                                     <div class="tab-pane" id="signup">
-                                                        <form class="mb-0">
-                                                            <a href="#" class="btn btn--facebook btn--block"><i class="fa fa-facebook-square"></i>Register with Facebook</a>
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
                                                             <div class="or-text">
-                                                                <span>or</span>
+                                                                <span></span>
                                                             </div>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="full-name" id="full-name" placeholder="Full Name">
+                                                                <input type="text" class="form-control" name="name" id="full-name" placeholder="姓名">
                                                             </div>
                                                             <!-- .form-group end -->
-                                                            <div class="form-group">
-                                                                <input type="email" class="form-control" name="register-email" id="register-email" placeholder="Email Address">
+                                                           <div class="form-group">
+                                                                <input type="email" class="form-control" name="email" id="register-email" placeholder="Email 地址">
                                                             </div>
                                                             <!-- .form-group end -->
-                                                            <div class="form-group">
-                                                                <input type="password" class="form-control" name="register-password" id="register-password" placeholder="Password">
+                                                           <div class="form-group">
+                                                                <input type="password" class="form-control" name="password" id="register-password" placeholder="密码">
                                                             </div>
                                                             <!-- .form-group end -->
-                                                            <div class="input-checkbox">
+                                                           <div class="input-checkbox">
                                                                 <label class="label-checkbox">
-                                <span>I agree with all <a href="#">Terms & Conditions</a></span>
+                                <span>我已经阅读并同意 <a href="#">用户协议</a></span>
                                 <input type="checkbox">
                                 <span class="check-indicator"></span>
                             </label>
                                                             </div>
-                                                            <input type="submit" class="btn btn--primary btn--block" value="Register">
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
+                                                        {% csrf_token %}
                                                         </form>
                                                         <!-- form  end -->
                                                     </div>
@@ -169,10 +168,6 @@
                                 </div>
                                 <!-- /.modal -->
                             </div>
-                        </div>
-                        <!-- Module Consultation  -->
-                        <div class="module module-property pull-left">
-                            <a href="add-property.html" target="_blank" class="btn"><i class="fa fa-plus"></i> add property</a>
                         </div>
                         {% endif %}
                     </div>
@@ -198,7 +193,7 @@
                                     <h1>帮助</h1>
                                 </div>
                                 <ol class="breadcrumb">
-                                    <li><a href="#">首页</a></li>
+                                    <li><a href="{% url 'index' %}">首页</a></li>
                                     <li class="active">帮助</li>
                                 </ol>
                             </div>
@@ -410,5 +405,10 @@
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/functions.js"></script>
 </body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
 
+    }
+</script>
 </html>

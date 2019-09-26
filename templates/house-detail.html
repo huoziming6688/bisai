@@ -47,10 +47,10 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				</button>
-                        <a class="logo" href="index.html">
+                        <li style="list-style-type: none;line-height: 80px"><a class="logo" href="{% url 'index' %}">
 					<img class="logo-light" src="/static/images/logo/logo-light.png" alt="Land Logo">
 					<img class="logo-dark" src="/static/images/logo/logo-dark.png" alt="Land Logo">
-				</a>
+                        </a></li>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -74,7 +74,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'infor' %}">个人信息</a></li>
                                     <li><a href="{% url 'shoucang' %}">我的收藏</a></li>
-                                    <li><a href="home-property.html">推荐房源</a></li>
                                 </ul>
                             </li>
                             <!-- li end -->
@@ -84,7 +83,7 @@
                         <!-- Module Signup  -->
                         {% if request.user.is_authenticated %}
 
-                            <li><a href="{% url 'logout' %}">退出登录</a></li>
+                            <li style="list-style-type: none;line-height: 95px"><a href="{% url 'logout' %}">退出登录</a></li>
 
 
                             <!--<a class="btn-popup" data-toggle="modal" data-target="#signupModule">退出登录</a>-->
@@ -109,7 +108,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0" method="get" action="{% url 'login' %}">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'house_detail' hid %}">
                                                                 <div class="or-text">
                                                                     <span></span>
                                                                 </div>
@@ -137,7 +136,7 @@
                                                         <!-- .signup-form end -->
                                                     </div>
                                                     <div class="tab-pane" id="signup">
-                                                       <form class="mb-0" method="get" action="{% url 'register' %}">
+                                                       <form class="mb-0" method="post" action="{% url 'register' %}">
                                                             <div class="or-text">
                                                                 <span></span>
                                                             </div>
@@ -160,7 +159,7 @@
                                 <span class="check-indicator"></span>
                             </label>
                                                             </div>
-                                                            <input type="submit" class="btn btn--primary btn--block" value="注册">
+                                                            <input type="submit" class="btn btn--primary btn--block" id="register" value="注册">
                                                         {% csrf_token %}
                                                         </form>
                                                         <!-- form  end -->
@@ -197,10 +196,10 @@
                             <div class="property--info clearfix">
                                 <div class="pull-left">
                                     <h5 class="property--title">{{ title }}</h5>
-                                    <p class="property--location"><i class="fa fa-map-marker"></i>{{ contact }}</p>
+                                    <p class="property--location" style="color: white"><i class="fa fa-phone"></i>{{ contact }}</p>
                                 </div>
                                 <div class="pull-right">
-                                    <p class="property--price text-theme">¥{{ hprice }}<span>/月</span></p>
+                                    <p class="property--price text-theme">¥{{ hprice }}<span>/月</span>(标价)/¥{{ hpredictprice }}<span>/月</span>(预测价)</p>
                                 </div>
                             </div>
                             <!-- .property-info end -->
@@ -208,12 +207,12 @@
                                 <div class="pull-left">
                                     <ul class="list-unstyled list-inline mb-0">
                                         <li>
-                                            房源朝向 :<span class="value">{{ hdirection }}</span>
+                                            房源朝向 :<span class="value" style="color: white">{{ hdirection }}</span>
                                         </li>
                                         <li>
                                             <div class="btn fr collectionbtn  notlogin
-                                            " data-favid="22" data-fav-type="1" type="submit">
-                                                    添加至收藏
+                                            " data-favid="22" data-fav-type="1" type="submit" id="favcontent">
+                                                    {% if has_fav %}取消收藏{% else %}添加至收藏{% endif %}
                                             </div>
                                         </li>
                                     </ul>
@@ -251,6 +250,7 @@
                     </div>
                 </div>
                 <!-- .slide-item end -->
+
             </div>
         </section>
         <!-- #property-single-slider end -->
@@ -445,187 +445,6 @@
         <!-- #property-single end -->
         <!-- properties-carousel
 ============================================= -->
-        <section id="properties-carousel" class="properties-carousel properties-grid pt-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="heading heading-2  mb-70">
-                            <h2 class="heading--title">类似房源</h2>
-                        <!-- .heading-title end -->
-                    </div>
-                    <!-- .col-md-12 end -->
-                </div>
-                <!-- .row end -->
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="carousel carousel-dots" data-slide="3" data-slide-rs="1" data-autoplay="true" data-nav="false" data-dots="true" data-space="25" data-loop="true" data-speed="800">
-                            <!-- .property-item #1 -->
-                            <div class="property-item">
-                                <div class="property--img">
-                                    <a href="#">
-                            <img src="/static/images/properties/3.jpg" alt="property image" class="img-responsive">
-</a>
-                                </div>
-                                <div class="property--content">
-                                    <div class="property--info">
-                                        <h5 class="property--title"><a href="#">Apartment in Long St.</a></h5>
-                                        <p class="property--location">34 Long St, Jersey City, NJ 07305</p>
-                                        <p class="property--price">¥70,000</p>
-                                    </div>
-                                    <!-- .property-info end -->
-                                    <div class="property--features">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><span class="feature">卧室 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">卫生间 :</span><span class="feature-num">1</span></li>
-                                            <li><span class="feature">面积 ：</span><span class="feature-num">200 m2</span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- .property-features end -->
-                                </div>
-                            </div>
-                            <!-- .property item end -->
-
-                            <!-- .property-item #2 -->
-                            <div class="property-item">
-                                <div class="property--img">
-                                    <a href="#">
-                            <img src="/static/images/properties/11.jpg" alt="property image" class="img-responsive">
-							</a>
-                                </div>
-                                <div class="property--content">
-                                    <div class="property--info">
-                                        <h5 class="property--title"><a href="#">Villa in Chicago IL</a></h5>
-                                        <p class="property--location">1445 N State Pkwy, Chicago, IL 60610</p>
-                                        <p class="property--price">¥235,000</p>
-                                    </div>
-                                    <!-- .property-info end -->
-                                    <div class="property--features">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><span class="feature">卧室 :</span><span class="feature-num">3</span></li>
-                                            <li><span class="feature">卫生间 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">面积 :</span><span class="feature-num">1120 m2</span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- .property-features end -->
-                                </div>
-                            </div>
-                            <!-- .property item end -->
-
-                            <!-- .property-item #3 -->
-                            <div class="property-item">
-                                <div class="property--img">
-                                    <a href="#">
-                            <img src="/static/images/properties/5.jpg" alt="property image" class="img-responsive">
-							</a>
-                                </div>
-                                <div class="property--content">
-                                    <div class="property--info">
-                                        <h5 class="property--title"><a href="#">2750 House in Urban St.</a></h5>
-                                        <p class="property--location">2750 Urban Street Dr, Anderson, IN 46011</p>
-                                        <p class="property--price">¥1,550<span class="time">月</span></p>
-                                    </div>
-                                    <!-- .property-info end -->
-                                    <div class="property--features">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><span class="feature">卧室 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">卫生间 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">面积 :</span><span class="feature-num">1390 m2</span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- .property-features end -->
-                                </div>
-                            </div>
-                            <!-- .property item end -->
-
-                            <!-- .property-item #4 -->
-                            <div class="property-item">
-                                <div class="property--img">
-                                    <a href="#">
-                            <img src="/static/images/properties/4.jpg" alt="property image" class="img-responsive">
-							</a>
-                                </div>
-                                <div class="property--content">
-                                    <div class="property--info">
-                                        <h5 class="property--title"><a href="#">House in Kent Street</a></h5>
-                                        <p class="property--location">127 Kent Street, Sydney, NSW 2000</p>
-                                        <p class="property--price">¥130,000</p>
-                                    </div>
-                                    <!-- .property-info end -->
-                                    <div class="property--features">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><span class="feature">卧室 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">卫生间 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">面积 :</span><span class="feature-num">587 m2</span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- .property-features end -->
-                                </div>
-                            </div>
-                            <!-- .property item end -->
-
-                            <!-- .property-item #5 -->
-                            <div class="property-item">
-                                <div class="property--img">
-                                    <a href="#">
-                            <img src="/static/images/properties/2.jpg" alt="property image" class="img-responsive">
-                            <span class="property--status"></span>
-</a>
-                                </div>
-                                <div class="property--content">
-                                    <div class="property--info">
-                                        <h5 class="property--title"><a href="#">Villa in Oglesby Ave</a></h5>
-                                        <p class="property--location">1035 Oglesby Ave, Chicago, IL 60617</p>
-                                        <p class="property--price">¥130,000<span class="time">月</span></p>
-                                    </div>
-                                    <!-- .property-info end -->
-                                    <div class="property--features">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><span class="feature">卧室 :</span><span class="feature-num">4</span></li>
-                                            <li><span class="feature">卫生间 :</span><span class="feature-num">3</span></li>
-                                            <li><span class="feature">面积 :</span><span class="feature-num">800 m2</span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- .property-features end -->
-                                </div>
-                            </div>
-                            <!-- .property item end -->
-
-                            <!-- .property-item #6 -->
-                            <div class="property-item">
-                                <div class="property--img">
-                                    <a href="#">
-                            <img src="/static/images/properties/3.jpg" alt="property image" class="img-responsive">
-</a>
-                                </div>
-                                <div class="property--content">
-                                    <div class="property--info">
-                                        <h5 class="property--title"><a href="#">Apartment in Long St.</a></h5>
-                                        <p class="property--location">34 Long St, Jersey City, NJ 07305</p>
-                                        <p class="property--price">¥70,000</p>
-                                    </div>
-                                    <!-- .property-info end -->
-                                    <div class="property--features">
-                                        <ul class="list-unstyled mb-0">
-                                            <li><span class="feature">卧室 :</span><span class="feature-num">2</span></li>
-                                            <li><span class="feature">卫生间 :</span><span class="feature-num">1</span></li>
-                                            <li><span class="feature">面积 :</span><span class="feature-num">200 m2</span></li>
-                                        </ul>
-                                    </div>
-                                    <!-- .property-features end -->
-                                </div>
-                            </div>
-                            <!-- .property item end -->
-
-                        </div>
-                        <!-- .carousel end -->
-                    </div>
-                    <!-- .col-md-12 -->
-                </div>
-                <!-- .row -->
-            </div>
-            <!-- .container -->
-        </section>
-        <!-- #properties-carousel  end  -->
 
         <!-- Footer #1
 ============================================= -->
@@ -740,24 +559,33 @@
         },
         success: function(data) {
             if(data.status == 'fail'){
-                if(data.msg == '用户未登录'){
-                    window.location.href="{% url 'login' %}";
-                }else{
-                    alert(data.msg)
+                if(data.msg == '取消收藏'){
+                    alert('取消收藏')
+                    document.getElementById('favcontent').innerHTML='添加至收藏'
                 }
-
             }else if(data.status == 'success'){
-                current_elem.text(data.msg)
+                if(data.msg == '已收藏') {
+                    alert('收藏成功')
+                    document.getElementById('favcontent').innerHTML='取消收藏'
+                }
             }
         },
     });
 }
-
+var isfav=0;
 $(document).ready(function() {
     $('.collectionbtn').on('click', function(){
+         var islogin=0
+        {%if request.user.is_authenticated %}
+            islogin=1
+            {% endif %}
+        if(!islogin){
+            $('#signupModule').modal('show')
+        }
         add_fav($(this), '{{ hid }}');
     });
 });
+
 </script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.13&key=c09c4ec1d247fab72b361795b999bb85&plugin=AMap.Geolocation,AMap.ToolBar,AMap.Scale,AMap.Geocoder"></script>
 <script>
@@ -772,7 +600,7 @@ function bd_decrypt() {
     var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * X_PI);
     jingdu = z * Math.cos(theta);
     weidu = z * Math.sin(theta);}
-    bd_decrypt()
+bd_decrypt()
 var map = new AMap.Map('gaodemap', {
     resizeEnable: true, //是否监控地图容器尺寸变化
     zoom:11,
@@ -815,5 +643,10 @@ location_to_address()
 
 </script>
 </body>
+<script>
+    document.getElementById('register').onclick=function () {
+        alert('邮件已发送，请到邮箱激活后登录')
 
+    }
+</script>
 </html>
