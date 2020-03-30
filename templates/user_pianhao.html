@@ -1,4 +1,4 @@
-﻿
+
 
 <html dir="ltr" lang="zh-hans">
 
@@ -106,7 +106,7 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="login">
                                                         <div class="signup-form-container text-center">
-                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'infor' %}">
+                                                            <form class="mb-0" method="post" action="{% url 'login' %}?next={% url 'pianhao' %}">
                                                                 <div class="or-text">
                                                                     <span></span>
                                                                 </div>
@@ -198,7 +198,7 @@
                                 </div>
                                 <ol class="breadcrumb">
                                     <li><a href="{% url 'index' %}">首页</a></li>
-                                    <li class="active">我的信息</li>
+                                    <li class="active">我的偏好</li>
                                 </ol>
                             </div>
                             <div class="clearfix"></div>
@@ -215,78 +215,298 @@
 
         <!-- #user-profile
 ============================================= -->
-        <section id="user-profile" class="user-profile">
+        <section id="user-profile" class="user-profile" >
+<style  type="text/css">
+    .form-control{
+ color: black;
+}
+</style>
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
                         <div class="edit--profile-area">
                             <ul class="edit--profile-links list-unstyled mb-0">
-                                <li><a href="{% url 'infor' %}" >个人信息</a></li>
-                                <li><a href="{% url 'pianhao' %}" class="active">偏好管理</a></li>
+                                <li><a href="{% url 'infor' %}" class="active">个人信息</a></li>
+                                <li><a href="{% url 'pianhao' %}" >偏好管理</a></li>
                                 <li><a href="{% url 'shoucang' %}" class="active">我的收藏</a></li>
                             </ul>
                         </div>
                     </div>
                     <!-- .col-md-4 -->
-                    <div class="col-xs-12 col-sm-12 col-md-8">
-                        <form class="mb-0" method="post" action="{% url 'edit' %}"enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-box">
-                                <h4 class="form--title">个人头像</h4>
-                                <div class="upload--img-area">
-                                    <div class="preview--img">
-                                        <img src="{{ MEDIA_URL }}{{ user.image }}" id="output--img" class="output--img">
-                                    </div>
-                                    <a class="btn btn--primary btn-file ml-30">上传
-                                <input type="file" name="image" hidden>
-                                <input type="file" accept="image/*" onchange="loadFile(event)" name="image">
-                            </a>
-                                    <a href="#" class="btn delete--img"><i class="fa fa-times"></i>删除</a>
-                                    <script>
-                                        var loadFile = function(event) {
-                                            var reader = new FileReader();
-                                            reader.onload = function() {
-                                                var output = document.getElementById('output--img');
-                                                output.src = reader.result;
-                                            };
-                                            reader.readAsDataURL(event.target.files[0]);
-                                        };
+                    <div class="col-xs-12 col-sm-12 col-md-9">
+                        <strong style="color: black">请按指引完成下表</strong>
+                        <table class="table table-bordered" style="color: black">
+                            <tbody >
 
-                                    </script>
-                                </div>
-                            </div>
+
+                                <td style="color: black">行比列非常重要</td>
+
+                                <td  style="color: black">介于之间</td>
+                                <td style="color: black">行比列比较重要</td>
+                                <td style="color: black">介于之间</td>
+                                <td style="color: black">行、列一样重要</td>
+                                <td style="color: black">介于之间</td>
+                                <td style="color: black">列比行比较重要</td>
+                                <td style="color: black">介于之间</td>
+                                <td style="color: black">列比行非常重要</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black">5</td>
+                                <td style="color: black">4</td>
+                                <td style="color: black">3</td>
+                                <td style="color: black">2</td>
+                                <td style="color: black">1</td>
+                                <td style="color: black">1/2</td>
+                                <td style="color: black">1/3</td>
+                                <td style="color: black">1/4</td>
+                                <td style="color: black">1/5</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <form class="mb-0" method="post" action="{% url 'setpianhao' %}"enctype="multipart/form-data">
+
                             <div class="form-box">
-                                <h4 class="form--title">详细信息</h4>
-                                <div class="form-group">
-                                    <label for="first_name">姓氏</label>
-                                    <input type="text" class="form-control" name="first_name" id="first-name"value="{{ request.user.first_name }}">
-                                </div>
-                                <!-- .form-group end -->
-                                <div class="form-group">
-                                    <label for="last_name">名字</label>
-                                    <input type="text" class="form-control" name="last_name" id="last-name"value="{{ request.user.last_name }}">
-                                </div>
-                                <!-- .form-group end -->
-                                <div class="form-group">
-                                    <label for="email-address">Email 地址</label>
-                                    <input type="email" value="{{ request.user.email }}" class="form-control" name="email" id="email-address">
-                                </div>
-                                <!-- .form-group end -->
-                                <div class="form-group">
-                                    <label for="phone-number">电话</label>
-                                    <input type="text" class="form-control" name="mobile" id="phone-number" value="{{ request.user.mobile}}">
-                                </div>
-                                <!-- .form-group end -->
-                                <div class="form-group">
-                                    <label for="about-me">个人简介</label>
-                                    <textarea class="form-control" name="about" id="about-me" rows="2">{{ request.user.about }}</textarea>
-                                </div>
-                                <!-- .form-group end -->
+                                <table class="table table-bordered " >
+  <tbody>
+    <tr>
+    <td></td>
+    <td style="color: black">上班距离</td>
+        <td style="color: black">地铁站距离</td>
+    <td style="color: black">购物方便</td>
+    <td style="color: black">教育水平</td>
+    <td style="color: black">医疗资源</td>
+    <td style="color: black">绿化环境</td>
+ 	<td style="color: black">租房价格</td>
+        <td style="color: black">价格合理</td>
+
+    </tr>
+    <tr>
+    <td style="color: black">上班距离</td>
+    <td>1</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+            <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td style="color: black">地铁站距离</td>
+    <td><select class="form-control" name="t2_t1">
+	            {% for i in selectlist%}
+			<option {% if t2_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+    <td>1</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+            <td></td>
+    <td></td>
+    </tr>
+    <tr>
+       <td style="color: black">购物方便</td>
+      <td><select class="form-control" name="l_t1">
+            {% for i in selectlist%}
+			<option {% if l_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="l_t2">
+            {% for i in selectlist%}
+			<option {% if l_t2 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+      <td>1</td>
+       <td></td>
+    <td></td>
+    <td></td>
+            <td></td>
+    <td></td>
+    </tr>
+    <tr>
+      <td style="color: black">教育水平</td>
+      <td><select class="form-control" name="e_t1">
+            {% for i in selectlist%}
+			<option {% if e_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="e_t2">
+            {% for i in selectlist%}
+			<option {% if e_t2 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="e_l">
+            {% for i in selectlist%}
+			<option {% if e_l == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+         <td >1</td>
+    <td></td>
+    <td></td>
+            <td></td>
+    <td></td>
+    </tr>
+    <tr>
+       <td style="color: black">医疗资源</td>
+      <td><select class="form-control" name="h_t1">
+	            {% for i in selectlist%}
+			<option {% if h_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+      <td><select class="form-control" name="h_t2">
+	            {% for i in selectlist%}
+			<option {% if h_t2 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+      <td><select class="form-control" name="h_l">
+            {% for i in selectlist%}
+			<option {% if h_l == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+         <td><select class="form-control" name="h_e">
+            {% for i in selectlist%}
+			<option {% if h_e == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+    <td>1</td>
+    <td></td>
+            <td></td>
+    <td></td>
+    </tr>
+    <tr>
+       <td style="color: black">绿化环境</td>
+      <td><select class="form-control" name="g_t1">
+            {% for i in selectlist%}
+			<option {% if g_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="g_t2">
+            {% for i in selectlist%}
+			<option {% if g_t2 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+      </select>
+</td>
+     <td><select class="form-control" name="g_l">
+            {% for i in selectlist%}
+			<option {% if g_l == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+    <td><select class="form-control" name="g_e">
+            {% for i in selectlist%}
+			<option {% if g_e == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+    <td><select class="form-control" name="g_h">
+            {% for i in selectlist%}
+			<option {% if g_h == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+      <td>1</td>
+            <td></td>
+    <td></td>
+    </tr>
+        <tr>
+       <td style="color: black">租房价格</td>
+      <td><select class="form-control" name="v1_t1">
+            {% for i in selectlist%}
+			<option {% if v1_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="v1_t2">
+            {% for i in selectlist%}
+			<option {% if v1_t2 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="v1_l">
+            {% for i in selectlist%}
+			<option {% if v1_l == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+    <td><select class="form-control" name="v1_e">
+	            {% for i in selectlist%}
+			<option {% if v1_e == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+    <td><select class="form-control" name="v1_h">
+
+            {% for i in selectlist%}
+			<option {% if v1_h == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="v1_g">
+            {% for i in selectlist%}
+			<option {% if v1_g == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+                <td>1
+		</td>
+    <td></td>
+    </tr>
+  <tr>
+       <td style="color: black">价格合理</td>
+      <td><select class="form-control" name="v2_t1">
+            {% for i in selectlist%}
+			<option {% if v2_t1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="v2_t2">
+	            {% for i in selectlist%}
+			<option {% if v2_t2 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="v2_l">
+            {% for i in selectlist%}
+			<option {% if v2_l == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+    <td><select class="form-control" name="v2_e">
+            {% for i in selectlist%}
+			<option {% if v2_e == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+    <td><select class="form-control" name="v2_h">
+            {% for i in selectlist%}
+			<option {% if v2_h == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select>
+</td>
+      <td><select class="form-control" name="v2_g">
+            {% for i in selectlist%}
+			<option {% if v2_g == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+      <td><select class="form-control" name="v2_v1">
+            {% for i in selectlist%}
+			<option {% if v2_v1 == i  %} selected="selected" {% endif %} value={{ i }}>{{ i }}</option>
+			{% endfor %}
+		</select></td>
+    <td>1</td>
+  </tr>
+  </tbody>
+</table>
                             </div>
                             <!-- .form-box end -->
 
                             <!-- .form-box end -->
-                            <input id="set" type="submit" value="Save Edits" name="submit" class="btn btn--primary">
+                            <input id='setpianhao' type="submit" value="保存偏好" name="submit" class="btn btn--primary">
+{% csrf_token %}
                         </form>
                     </div>
                     <!-- .col-md-8 end -->
@@ -409,5 +629,15 @@
         alert('邮件已发送，请到邮箱激活后登录')
 
     }
+    document.getElementById('setpianhao').onclick=function () {
+        var islogin1=0
+        {%if request.user.is_authenticated %}
+            islogin1=1
+            {% endif %}
+        if(!islogin1){
+        alert('请登陆后再设置偏好')
+            $('#signupModule').modal('show')
+
+    }}
 </script>
 </html>

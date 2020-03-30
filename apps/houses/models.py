@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from subdistricts.models import Subdistrict
+from subdistricts.models import *
 # Create your models here.
 
 
@@ -74,3 +75,35 @@ class HouseFacility(models.Model):
     class Meta:
 
         db_table = 'house_facility'
+
+class HouseInfo(models.Model):
+    hid = models.ForeignKey(House, models.DO_NOTHING, db_column='hid', blank=True, null=True)
+    hprice = models.IntegerField(blank=True, null=True)
+    weidu_jingdu = models.CharField(max_length=255, blank=True, null=True)
+    ting = models.IntegerField(blank=True, null=True)
+    shi = models.IntegerField(blank=True, null=True)
+    g = models.IntegerField(db_column='G', blank=True, null=True)  # Field name made lowercase.
+    h = models.IntegerField(db_column='H', blank=True, null=True)  # Field name made lowercase.
+    e = models.IntegerField(db_column='E', blank=True, null=True)  # Field name made lowercase.
+    l = models.IntegerField(db_column='L', blank=True, null=True)  # Field name made lowercase.
+    t2 = models.FloatField(db_column='T2', blank=True, null=True)  # Field name made lowercase.
+    delta_price = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'house_info'
+
+
+class Poi(models.Model):
+    poi_address = models.CharField(max_length=255, blank=True, null=True)
+    poi_jingdu = models.CharField(max_length=255, blank=True, null=True)
+    poi_weidu = models.CharField(max_length=255, blank=True, null=True)
+    poi_type = models.CharField(max_length=255, blank=True, null=True)
+    poi_id = models.CharField(primary_key=True, max_length=255)
+    poi_district = models.ForeignKey(District, models.DO_NOTHING, db_column='poi_district', blank=True, null=True)
+    poi_name = models.CharField(max_length=255, blank=True, null=True)
+    type_name = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'poi'

@@ -69,6 +69,7 @@ class LoginView(View):
 
     def post(self, request):
         next = request.GET.get('next', '')
+        #next用来记录登陆前的页面在哪里
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             pass

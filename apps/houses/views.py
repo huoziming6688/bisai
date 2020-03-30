@@ -8,6 +8,7 @@ from operations.views import *
 import json
 
 class Houseinfo(View):
+    #查看小区符合要求的房源页面
     def get(self, request,sid):
         houseinfolist=[]
         subdistrict=Subdistrict.objects.get(sid=sid)
