@@ -193,11 +193,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="226" />
-    <option name="y" value="106" />
-    <option name="width" value="1529" />
-    <option name="height" value="840" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="956" />
+    <option name="y" value="141" />
+    <option name="width" value="724" />
+    <option name="height" value="827" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -229,19 +229,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\templates" />
-      <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\static\fonts" />
-      <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\apps\houses" />
-      <recent name="C:\Users\xchs\Desktop\bisai\templates" />
-      <recent name="D:\PY\bisai\static\js" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\static\css" />
       <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\static\load.css" />
       <recent name="C:\Users\xchs\Desktop\bisai\templates" />
       <recent name="C:\Users\xchs\Desktop\bisai\apps\operations" />
       <recent name="C:\Users\xchs\Desktop\bisai\apps\subdistricts" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\templates" />
+      <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\static\fonts" />
+      <recent name="C:\Users\xchs\Desktop\bisai316改\bisai\apps\houses" />
+      <recent name="C:\Users\xchs\Desktop\bisai\templates" />
+      <recent name="D:\PY\bisai\static\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -472,12 +472,12 @@
       <workItem from="1585388486565" duration="12240000" />
       <workItem from="1585409085598" duration="601000" />
       <workItem from="1585468853822" duration="11208000" />
-      <workItem from="1585556191347" duration="337000" />
+      <workItem from="1585556191347" duration="624000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="234145000" />
+    <option name="totallyTimeSpent" value="234432000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -489,7 +489,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5155807" visible="true" weight="0.21849866" />
       <window_info id="Structure" order="1" sideWeight="0.48441926" side_tool="true" weight="0.19235925" />
